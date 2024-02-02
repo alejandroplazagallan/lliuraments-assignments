@@ -1,0 +1,792 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumerate}
+\usepackage{amsthm}
+\usepackage[left=2cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{corollari}{Corol\textperiodcentered lari}
+\newtheorem{lema}{Lema}
+\newtheorem{definicio}{Definici\'{o}}
+\newtheorem{notacio}{Notaci\'{o}}
+\newtheorem{proposicio}{Proposici\'{o}}
+\theoremstyle{definition}
+\newtheorem{exemple}{Exemple}
+
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Val}{Val}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\GL}{GL}
+
+\title{Geometria integral}
+\author{V\'{i}ctor Herrero Ruz\\Alejandro Plaza Gall\'{a}n}
+\date{20 de juny 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Teorema de descomposici\'{o} de McMullen}
+
+En aquesta secci\'{o} parlarem sobre les valoracions. Les definirem i veurem alguns tipus espec\'{i}fics de valoracions. Parlarem tamb\'{e} de pol\'{i}tops i, especialment, dels pol\'{i}tops m\'{e}s senzills: els s\'{i}mplexs, que utilitzarem despr\'{e}s per demostrar el teorema de descomposici\'{o} de McMullen, el qual permet descompondre les valoracions com a suma de valoracions homog\`{e}nies.
+
+\begin{notacio}
+Al llarg de tot aquest treball $V$ far\`{a} refer\`{e}ncia a un espai vectorial real de dimensi\'{o} finita. Direm $n$ la seva dimensi\'{o}.
+\end{notacio}
+
+\begin{definicio}
+(Pol\'{i}top convex) Donats $a_1,\ldots,a_n,b\in\mathbb{R}$, diem que el conjunt
+\[\{(x_1,\ldots,x_n)\in V\,|\,a_1x_1+\ldots+a_nx_n\leq b\}\]
+\'{e}s un \textbf{semiespai tancat}. Si la igualtat \'{e}s estricta, se'n diu semiespai obert.
+
+Un \textbf{pol\'{i}top convex tancat} \'{e}s una intersecci\'{o} finita de semiespais tancats.
+\end{definicio}
+
+Observem que els semiespais s\'{o}n convexos i per tant els pol\'{i}tops convexos tancats s\'{o}n efectivament convexos, ja que s\'{o}n interseccions de convexos. Nosaltres estudiarem concretament els pol\'{i}tops convexos compactes.
+
+\begin{notacio}
+Denotarem per $\mathcal{P}(V)$ el conjunt de tots els pol\'{i}tops convexos compactes no buits sobre $V$. Per la seva part, $\mathcal{K}(V)$ ser\`{a} el conjunt dels conjunts convexos compactes de $V$.
+\end{notacio}
+
+Comencem definint el concepte fonamental al voltant del qual girar\`{a} tot aquest treball.
+
+\begin{definicio}
+Sigui $\mathcal{C}(V)=\mathcal{P}(V)$ o $\mathcal{K}(V)$. Una \textbf{valoraci\'{o}} \'{e}s una aplicaci\'{o} escalar
+\[\phi:\mathcal{C}(V)\longrightarrow\mathbb{C}\]
+tal que per tots $A,B\in\mathcal{C}(V)$ amb $A\cup B\in\mathcal{C}(V)$, es compleix la seg\"{u}ent propietat d'additivitat:
+\[\phi(A\cup B)=\phi(A)+\phi(B)-\phi(A\cap B).\]
+\end{definicio}
+
+Volem estudiar les valoracions cont\'{i}nues, per\`{o} per aix\`{o} primer hem de dotar $\mathcal{P}(V)$ i $\mathcal{K}(V)$ d'una topologia. Aquesta vindr\`{a} donada per la dist\`{a}ncia de Hausdorff, que definim a continuaci\'{o}.
+
+\begin{definicio}
+Sigui $X$ un espai m\`{e}tric. Donats $A,B\subseteq X$ compactes, definim la seva \textbf{dist\`{a}ncia de Hausdorff} $d_H(A,B)$ com
+\[d_H(A,B)=\inf\{\epsilon>0\,|\,A\subseteq B_{\epsilon}\text{ i }B\subseteq A_{\epsilon}\},\]
+on $A_{\epsilon}$ i $B_{\epsilon}$ s\'{o}n entorns de $A$ i $B$ respectivament, definits per:
+\[A_{\epsilon}=\{x\in X\,|\,\dist(x,A)<\epsilon\},\hspace{5mm}B_{\epsilon}=\{x\in X\,|\,\dist(x,B)<\epsilon\}.\]
+\end{definicio}
+
+Observem que la dist\`{a}ncia de Hausdorff entre dos conjunts no \'{e}s la dist\`{a}ncia usual donada per $\dist(A,B)=\inf\{d(a,b)\,|\,a\in A,b\in B\}$. Aquesta dist\`{a}ncia $\dist$ no ens interessa perqu\`{e} considera a dist\`{a}ncia nul\textperiodcentered la dos conjunts que tenen un punt en com\'{u}, per\`{o} que poden ser molt diferents. La dist\`{a}ncia de Hausdorff, en canvi, s\'{i} que mesura la difer\`{e}ncia entre dos conjunts. De fet, perqu\`{e} dos compactes tinguin dist\`{a}ncia de Hausdorff nul\textperiodcentered la, han de ser iguals. Dos conjunts tenen dist\`{a}ncia $\epsilon$ quan cadascun est\`{a} contingut en un entorn de l'altre. Aquest entorn est\`{a} format pel conjunt i una corona al seu voltant de <<radi>> $\epsilon$.
+
+%Vegem un exemple per entendre aquesta dist\`{a}ncia i que a m\'{e}s ens ser\`{a} \'{u}til posteriorment.
+%
+%\begin{exemple}
+%Sigui $X$ un espai normat i siguin $A,B\subseteq X$ compactes i $\lambda\in\mathbb{R}_{>0}$. Aleshores
+%\[d_H(\lambda A,\lambda B)=\lambda d_H(A,B),\]
+%on $\lambda A=\{\lambda a\,|\,a\in A\}$, $\lambda B=\{\lambda b\,|\,b\in B\}$.
+%
+%Demostrem-ho. Comencem veient que donat $x\in V$,
+%\[\lambda\,\dist(x,A)=\lambda\inf_{a\in A}||x-a||=\inf_{a\in A}||\lambda x-\lambda a||=\inf_{a\in\lambda A}||\lambda x-a||=\dist(\lambda x,\lambda A).\]
+%
+%Ara observem que
+%\[\lambda A_{\epsilon}=\{\lambda x\in X\,|\,\dist(x,A)<\epsilon\}=\left\{x\in X\,|\,\dist\left(\frac{x}{\lambda},A\right)<\epsilon\right\}=\{x\in X\,|\,\dist(x,\lambda A)<\lambda\epsilon\}=(\lambda A)_{\lambda\epsilon}\]
+%
+%Tamb\'{e} remarquem que $A\subseteq B\Leftrightarrow\lambda A\subseteq\lambda B$.
+%
+%\begin{align*}
+%\lambda d_H(A,B)=\lambda\inf&\{\epsilon>0\,|\,A\subseteq B_{\epsilon},B\subseteq A_{\epsilon}\}=\{\epsilon>0\,|\,A\subseteq B_{\epsilon/\lambda},B\subseteq A_{\epsilon/\lambda}\}\\
+%&=\{\epsilon>0\,|\,\lambda A\subseteq(\lambda B)_{\epsilon},\lambda B\subseteq(\lambda A)_{\epsilon}\}=d_H(\lambda A,\lambda B)
+%\end{align*}
+%\end{exemple}
+%
+\begin{proposicio}
+Donat un espai m\`{e}tric $X$, el conjunt de tots els conjunts compactes amb la dist\`{a}ncia de Hausdorff \'{e}s un espai m\`{e}tric complet.
+\end{proposicio}
+
+Amb aix\`{o}, $\mathcal{K}(V)$ \'{e}s un espai m\`{e}tric. La dist\`{a}ncia que es posa sobre $V$ no \'{e}s can\`{o}nica ---ja que per exemple, existeixen diverses normes---, per\`{o} totes les normes defineixen la mateixa topologia, de manera que $V$ t\'{e} una topologia can\`{o}nica. La dist\`{a}ncia de Hausdorff de $\mathcal{K}(V)$ es defineix en funci\'{o} de la dist\`{a}ncia de $V$. No obstant aix\`{o}, es pot comprovar que totes les normes defineixen la mateixa dist\`{a}ncia de Hausdorff.
+
+Definim alguns tipus de valoracions amb qu\`{e} treballarem posteriorment.
+
+\begin{definicio}
+Sigui $\phi$ una valoraci\'{o}.
+\begin{itemize}
+
+\item Direm que $\phi$ \'{e}s \textbf{invariant sota translacions} quan per tots $A\in\mathcal{C}(V)$ i $x\in V$,
+\[\phi(A+x)=\phi(A),\]
+on $A+x=\{a+x\in V\,|\,a\in A\}$ \'{e}s el conjunt $A$ traslladat al llarg de $x$.
+
+\item Si $\phi$ est\`{a} definida sobre $\mathcal{K}(V)$, direm que \'{e}s \textbf{cont\'{i}nua} quan sigui una aplicaci\'{o} cont\'{i}nua amb la dist\`{a}ncia de Hausdorff sobre $\mathcal{K}(V)$. 
+\end{itemize}
+\end{definicio}
+
+%Per entendre qu\`{e} vol dir una aplicaci\'{o} cont\'{i}nua sobre $\mathcal{K}(V)$ podem fer el seg\"{u}ent senzill exemple.
+%
+%\begin{exemple}
+%L'aplicaci\'{o}
+%\begin{align*}
+%\mathbb{R}_{\geq0}\times\mathcal{K}(V)&\longrightarrow\mathcal{K}(V)\\
+%(\lambda,K)&\longmapsto\lambda K
+%\end{align*}
+%\'{e}s cont\'{i}nua.
+%
+%Siguin $\mu\in\mathbb{R}_{\geq0}$, $A\in\mathcal{K}(V)$. Vegem que
+%\[\lim_{(\lambda,K)\to(\mu,A)}\lambda K=\mu A.\]
+%
+%Per fer-ho, n'hi ha prou amb escriure la definici\'{o} de l\'{i}mit. Sigui $\epsilon>0$. Prenem $\delta=\sqrt{\epsilon}$. Siguin $\lambda\in\mathbb{R}_{\geq0}$, $K\in\mathcal{K}(V)$ tals que $|\lambda-\mu|,d_H(K,A)<\delta$. Aleshores $d_H(\lambda K,\mu A)=\lambda d_H(K,A$
+%\end{exemple}
+%
+\begin{notacio}
+Denotarem per $\Val(V)$ el conjunt de les valoracions cont\'{i}nues i invariants per translacions sobre $\mathcal{K}(V)$. Es pot dotar de manera natural d'estructura d'espai vectorial complex.
+\end{notacio}
+
+\begin{exemple}\label{Exe:valoracions}
+\begin{enumerate}
+    \item\label{Exe:Lebesgue} La mesura de Lebesgue $\vol$ pertany a $\Val(V)$.
+    \item\label{Exe:Euler} La caracter\'{i}stica d'Euler definida com $\chi(K)=1$ per tot $K\in\mathcal{K}(V)$ tamb\'{e} pertany a $\Val(V)$.
+    \item\label{Exe:Minkowski} Donada una valoraci\'{o} $\phi$ sobre $\mathcal{P}(V)$ i fixat un $B\in\mathcal{P}(V)$, l'aplicaci\'{o} $\psi:\mathcal{P}(V)\rightarrow\mathbb{C}$ definida per $\psi(A)=\phi(A+B)$ tamb\'{e} \'{e}s una valoraci\'{o}.
+\end{enumerate}
+\end{exemple}
+
+\begin{definicio}
+Una funci\'{o} $\phi:\mathcal{C}(V)\rightarrow\mathbb{C}$ es diu que satisf\`{a} la propietat d'\textbf{inclusi\'{o}-exclusi\'{o}} quan per tota fam\'{i}lia finita $A_1,\ldots A_s\in\mathcal{C}(V)$ tal que la seva uni\'{o} pertany a $\mathcal{C}(V)$, tenim
+\[\phi\left(\bigcup_{i=1}^sA_i\right)=\sum_{\substack{I\subseteq\{1,\ldots,s\}\\I\neq\emptyset}}(-1)^{\#I-1}\phi\left(\bigcap_{i\in I}A_i\right).\]
+\end{definicio}
+
+De fet, l'additivitat de les valoracions \'{e}s la propietat d'inclusi\'{o}-exclusi\'{o} pel cas particular en qu\`{e} $s=2$.
+
+\begin{teorema}\label{Teo:inex}
+\begin{enumerate}
+    \item (Volland) Tota valoraci\'{o} sobre $\mathcal{P}(V)$ satisf\`{a} la propietat d'inclusi\'{o}-exclusi\'{o}.
+    \item (Groemer) Tota valoraci\'{o} cont\'{i}nua sobre $\mathcal{K}(V)$ satisf\`{a} la propietat d'inclusi\'{o}-exclusi\'{o}.
+\end{enumerate}
+\end{teorema}
+
+Aquest teorema ens diu essencialment que totes les valoracions que tractarem compliran la propietat d'inclusi\'{o}-exclusi\'{o}.
+
+\begin{definicio}
+(S\'{i}mplex) Donats els punts $a_0,\ldots,a_k\in V$ af\'{i}nment independents, \'{e}s a dir, tals que $a_1-a_0,a_2-a_0,\ldots a_k-a_0$ s\'{o}n linealment independents, definim el $k$-\textbf{s\'{i}mplex} o s\'{i}mplex $k$-dimensional com:
+\[\Delta_k=\{\theta_0a_0+\cdots+\theta_ka_k\in V\,|\,\theta_0+\cdots+\theta_k=1,\theta_i\geq0\}.\]
+\end{definicio}
+
+El s\'{i}mplex \'{e}s una generalitzaci\'{o} dels triangles i els tetr\`{a}edres a qualsevol dimensi\'{o}. Per exemple, els s\'{i}mplex unidimensionals s\'{o}n els segments. Els punts $a_0,\ldots,a_k$ s\'{o}n els $k$ v\`{e}rtexs del $k$-s\'{i}mplex. Si $\Delta_k$ \'{e}s un s\'{i}mplex de v\`{e}rtexs $a_0,\ldots,a_k$, aleshores $\lambda\Delta_k$ \'{e}s un altre s\'{i}mplex, aquest de v\`{e}rtexs $\lambda a_0,\ldots,\lambda a_k$.
+
+La seg\"{u}ent proposici\'{o} ens donar\`{a} una manera d'expressar els s\'{i}mplexs molt simple i convenient, en unes coordenades oportunes.
+
+\begin{proposicio}\label{Pro:referenciaafin}
+Siguin $a_0,\ldots,a_k\in V$ af\'{i}nment independents. Escrivim $u_0=a_0$ i $u_i=a_{k-i+1}-a_{k-i}$ per $i=1,\ldots,k$. Aleshores els vectors $u_1,\ldots,u_k$ s\'{o}n linealment independents i el $k$-s\'{i}mplex de v\`{e}rtexs $a_0,\ldots a_k$ es pot expressar com:
+\[\Delta_k=\{u_0+x_1u_1+\cdots+x_ku_k\in V\,|\,0\leq x_1\leq\cdots\leq x_k\leq1\}.\]
+
+Rec\'{i}procament, donats $u_0,\ldots u_k\in V$ amb $u_1,\ldots,u_k$ linealment independents, escrivim $a_0=u_0$ i $a_i=u_{k-i+1}+\cdots+u_k+u_0$ per $i=1,\ldots,k$. Aleshores els punts $a_0,\ldots,a_k$ s\'{o}n af\'{i}nment independents i
+\[\Delta_k=\{u_0+x_1u_1+\cdots+x_ku_k\in V\,|\,0\leq x_1\leq\cdots\leq x_k\leq1\}\]
+\'{e}s el s\'{i}mplex de v\`{e}rtexs $a_0,\ldots,a_k$.
+
+En el cas que $u_0,\ldots,u_k$ estiguin fixats, escriurem aquest s\'{i}mplex senzillament com:
+\[\Delta_k=\{0\leq x_1\leq\cdots\leq x_k\leq1\}.\]
+\end{proposicio}
+\begin{proof}
+Comencem provant el que diu el primer par\`{a}graf. Tenim que $a_0,\ldots a_k$ s\'{o}n af\'{i}nment independents. Escrivim $v_i=a_i-a_0$ per $i=1,\ldots,k$ i, per definici\'{o}, $v_1,\ldots,v_k$ s\'{o}n linealment independents. Tenim $u_k=a_1-a_0=v_1$ i $u_i=a_{k-i+1}-a_{k-i}=v_{k-i+1}-v_{k-i}$ per $i=1,\ldots,k-1$. Volem provar la independ\`{e}ncia lineal de $u_1,\ldots,u_k$. Siguin $\lambda_1,\ldots,\lambda_k\in\mathbb{R}$ tals que
+\[0=\lambda_1u_1+\cdots+\lambda_ku_k=\lambda_1(v_k-v_{k-1})+\cdots+\lambda_{k-1}(v_2-v_1)+\lambda_kv_1=(\lambda_k-\lambda_{k-1})v_1+\cdots+(\lambda_2-\lambda_1)v_{k-1}+\lambda_1v_k.\]
+
+Per independ\`{e}ncia lineal de $v_1,\ldots,v_k$, han de ser $\lambda_1=0$ i $\lambda_i=\lambda_{i-1}$ per $i=2,\ldots,k$. Per tant $\lambda_i=0$ per tot $i=1,\ldots,k$, amb el que queda provat que $u_1,\ldots u_k$ s\'{o}n linealment independents.
+
+Ara passem a provar que el s\'{i}mplex de v\`{e}rtexs $a_0,\ldots,a_k$ \'{e}s el generat pels $u_0,\ldots,u_k$.
+
+\[\{u_0+x_1u_1+\cdots+x_ku_k\in V\,|\,0\leq x_1\leq\cdots\leq x_k\leq1\}=\{a_0+x_1(a_k-a_{k-1})+\cdots+x_k(a_1-a_0)\,|\,0\leq x_1\leq\cdots\leq x_k\leq1\}\]
+\[=\{(1-x_k)a_0+(x_k-x_{k-1})a_1+\cdots+(x_2-x_1)a_{k-1}+x_1a_k\,|\,0\leq x_1\leq\cdots\leq x_k\leq1\}\]
+
+En el conjunt anterior fem el canvi de variables $\theta_k=x_1$ i $\theta_i=x_{k-i+1}-x_{k-i}$ per $i=1,\ldots,k-1$. L'invers d'aquest canvi de variables \'{e}s $x_1=\theta_k$, $x_i=\theta_{k-i+1}+\cdots+\theta_k$. D'aquesta manera obtenim el seg\"{u}ent conjunt:
+\[\{(1-\theta_1-\cdots-\theta_k)a_0+\theta_1a_1\cdots+\theta_ka_k\,|\,0\leq\theta_k\leq\theta_{k+1}+\theta_k\leq\cdots\leq\theta_1+\cdots\theta_k\leq1\}\]
+\[=\{(1-\theta_1-\cdots-\theta_k)a_0+\theta_1a_1+\cdots+\theta_ka_k\,|\,\theta_1+\cdots+\theta_k\leq1,\theta_i\geq0\}=\{\theta_0a_0+\cdots+\theta_ka_k\,|\,\theta_0+\cdots+\theta_k=1,\theta_i\geq0\}.\]
+
+Ara provem que si $u_1,\ldots,u_k$ s\'{o}n linealment independents, aleshores els $a_0,\ldots,a_k$ s\'{o}n af\'{i}nment independents. Per definici\'{o} dels $a_i$, tenim $a_i-a_0=u_{k-i+1}+\cdots+u_k$ per $i=1,\ldots,k$. Volem veure que els $a_1-a_0,\ldots,a_k-a_0$ s\'{o}n linealment independents. Siguin $\lambda_1,\ldots,\lambda_k\in\mathbb{R}$ tals que
+\[0=\lambda_1(a_1-a_0)+\cdots\lambda_k(a_k-a_0)=\lambda_1u_k+\lambda_2(u_{k-1}+u_k)+\cdots+\lambda_k(u_1+\cdots+u_k)=\lambda_ku_1+(\lambda_{k-1}+\lambda_k)u_2+\cdots+(\lambda_1+\cdots\lambda_k)u_k.\]
+
+Com que els $u_1,\ldots,u_k$ s\'{o}n linealment independents, els seus coeficients han de ser 0. Per tant $\lambda_k=0$. Despr\'{e}s obtenim $\lambda_{k-1}=0$ i aix\'{i} successivament fins tenir $\lambda_1=0$, amb el qual queda provada la independ\`{e}ncia af\'{i} dels $a_0,\ldots,a_k$.
+
+Ara b\'{e}, si $a_0=u_0$ i $a_i=u_{k-i+1}+\cdots+u_k+u_0$ per $i=1,\ldots,k$, aleshores tenim que $u_0=a_0$ i $u_i=a_{k-i+1}-a_{k-i}$ per $i=1,\ldots,k$. Per tant, pel ja demostrat, el s\'{i}mplex amb v\`{e}rtexs $a_0,\ldots,a_k$ \'{e}s igual al s\'{i}mplex definit pels $u_0,\ldots,u_k$.
+\end{proof}
+
+Aquesta proposici\'{o} ens dona l'expressi\'{o} dels s\'{i}mplexs en termes de coordenades afins $(x_1,\ldots,x_k)$ respecte del sistema de refer\`{e}ncia af\'{i} format pel punt $u_0$ i els vectors $u_1,\ldots,u_k$. El s\'{i}mplex $\Delta_k$ est\`{a} incl\`{o}s dins del subespai af\'{i} de $V$ determinat per aquest sistema de refer\`{e}ncia. Les coordenades $(x_1,\ldots,x_n)$ de cada punt del subespai af\'{i} s\'{o}n \'{u}niques.
+
+Podem observar que si $\Delta_k=\{0\leq x_1\leq\cdots\leq x_k\leq1\}$, aleshores $\lambda\Delta_k=(\lambda-1)u_0+\{0\leq x_1\leq\cdots\leq x_k\leq\lambda\}$.
+
+\begin{teorema}\label{Teo:Hadwiger}
+(Descomposici\'{o} de Hadwiger) Siguin $\lambda,\mu>0$. Siguin $u_0,\ldots,u_n\in V$ amb $u_1,\ldots,u_n$ linealment independents. Aleshores
+\[(\lambda+\mu)\Delta_n=\bigcup_{k=0}^n\Big(\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))\Big),\]
+on $\Delta_n=\{0\leq x_1\cdots\leq x_n\leq1\}$, $\Delta_k=\{0\leq x_1\leq\cdots\leq x_k\leq1\}$, $\Delta_{n-k}=\{0\leq x_{k+1}\leq\cdots\leq x_n\leq1\}$. $\Delta_k$ i $\Delta_{n-k}$ s\'{o}n els s\'{i}mplexs corresponents a $u_0,u_1,\ldots,u_k$ i a $u_0,u_{k+1},\ldots,u_n$ respectivament. i $(\mu,\ldots\mu)=\mu u_{k+1}+\cdots\mu u_n$.
+
+A m\'{e}s, per $0\leq s\leq n-1$ hom t\'{e}:
+\[(\lambda+\mu)\Delta_n\cap\big((\lambda+\mu-1)u_0+\{x_{s+1}\geq\mu\}\big)=\bigcup_{k=0}^s\Big(\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))\Big),\]
+on $\{x_{s+1}\geq\mu\}=\{u_0+x_1u_1+\cdots+x_nu_n\in V\,|\,x_{s+1}\geq\mu\}$.
+\end{teorema}
+\begin{proof}
+$\mu\cdot\Delta_k=(\mu-1)u_0+\{0\leq x_1\leq\cdots\leq x_k\leq\mu\}=(\mu-1)u_0+\{0\leq x_1\leq\cdots\leq x_k\leq\mu,\,x_{k+1}=\cdots=x_n=0\}$.
+
+$\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu)=(\lambda-1)u_0+\{\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu\}=(\lambda-1)u_0+\{x_1=\cdots=x_k=0,\,\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu\}$.
+
+Demostrem la primer la primera igualtat, per la qual $s=n$. Fem-ho per doble inclusi\'{o}.
+\begin{itemize}
+    \item $\subseteq)$ Sigui $(\lambda+\mu-1)u_0+x\in(\lambda+\mu)\Delta_n$ amb $(x_1,\ldots,x_n)$ les coordenades de $x$. Llavors tindrem $0\leq x_1\leq\cdots\leq x_n\leq\lambda+\mu$. Com que $0\leq\mu\leq\lambda$, ha d'existir algun $k\in\{0,\ldots,n\}$ tal que $0\leq x_1\leq\cdots\leq x_k\leq\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu$. Siguin $y,z\in V$ amb coordenades $y_i=x_i$, $z_i=0$ per $i=1,\ldots,k$ i $y_i=0$, $z_i=x_i$ per $i=k+1,\ldots,n$. Com que $0\leq y_1\leq\cdots\leq y_k\leq\mu$, aleshores $(\mu-1)u_0+y\in\mu\cdot\Delta_k$. Com que $\mu\leq z_{k+1}\leq\cdots\leq z_n\leq\lambda+\mu$, aleshores $(\lambda-1)u_0+z\in \lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu)$. A m\'{e}s clarament, $(\lambda+\mu-1)u_0+x=(\mu-1)u_0+y+(\lambda-1)u_0+z$. Ja ho tenim.
+    \item $\supseteq)$ Sigui $(\lambda+\mu-1)u_0+x\in\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))$ per un cert $k\in\{0,\ldots,n\}$. Aleshores existeixen $(\mu-1)u_0+y\in\mu\cdot\Delta_k$, $(\lambda-1)u_0+z\in\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu)$ tals que $(\lambda+\mu-1)u_0+x=(\mu-1)u_0+y+(\lambda-1)u_0+z$, \'{e}s a dir, tals que $x=-u_0+y+z$. Tenim que $0\leq y_1\leq\cdots\leq y_k\leq\mu$, $y_{k+1}=\cdots=y_n=0$, $z_1=\cdots=z_k=0$ i $\mu\leq z_{k+1}\leq\cdots\leq z_n\leq\lambda+\mu$. Per tant, com que $x_i=y_i+z_i$, en total, $0\leq x_1\leq\cdots\leq x_k\leq\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu$. Concloem que $(\lambda+\mu-1)u_0+x\in(\lambda+\mu)\Delta_n$.
+\end{itemize}
+Ara demostrem la igualtat dels conjunts per $0\leq s\leq n-1$, per la qual el procediment ser\`{a} an\`{a}leg a l'anterior.
+\begin{itemize}
+    \item $\subseteq)$ Sigui $(\lambda+\mu-1)u_0+x\in(\lambda+\mu)\Delta_n\cap((\lambda+\mu-1)u_0+\{x_{s+1}\geq\mu\})$. Com abans, ha d'existir algun $k\in\{0,\ldots,n\}$ tal que $0\leq x_1\leq\cdots\leq x_k\leq\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu$. Si es compleix $k\leq s$, aleshores pel raonament que hem fet abans, obtenim $(\lambda+\mu-1)u_0+x\in\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))$ i ja ho tenim. Si en canvi $k>s$, llavors $\mu\leq x_{s+1}\leq\cdots\leq x_k\leq\mu$ i per tant $\mu=x_{s+1}$. Aix\'{i} tindrem en particular $0\leq x_1\leq\cdots\leq x_s\leq\mu\leq x_{s+1}\leq\cdots\leq x_n\leq\lambda+\mu$ i ens remitim al cas en qu\`{e} $k\leq s$.
+    \item $\supseteq)$ Sigui $(\lambda+\mu-1)u_0+x\in\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))$ per un cert $k\in\{0,\ldots,s\}$. Pel que hem vist abans, $(\lambda+\mu-1)u_0+x\in(\lambda+\mu)\Delta_n$ i a m\'{e}s $0\leq x_1\leq\cdots\leq x_k\leq\mu\leq x_{k+1}\leq\cdots\leq x_n\leq\lambda+\mu$. En particular $\mu\leq x_{k+1}\leq\cdots\leq x_{s+1}$. Concloem que $(\lambda+\mu-1)u_0+x\in(\lambda+\mu)\Delta_n\cap((\lambda+\mu-1)u_0+\{x_{s+1}\geq\mu\})$.
+\end{itemize}
+\end{proof}
+
+El teorema de descomposici\'{o} de Hadwiger ens diu que $(\lambda+\mu)\Delta_n$ es pot descompondre com una uni\'{o} dels $\mu\cdot\Delta_k+(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))$. El s\'{i}mplex $\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu)$ no \'{e}s m\'{e}s que el s\'{i}mplex $\lambda\cdot\Delta_{n-k}$ despla\c{c}at. Aquests conjunts es poden entendre informalment com un producte $(\mu\cdot\Delta_k)\times(\lambda\Delta_{n-k})$, de manera que estem descomponent el s\'{i}mplex $(\lambda+\mu)\Delta_n$ en una uni\'{o} de productes dels s\'{i}mplexs $\mu\cdot\Delta_k\times\lambda\Delta_{n-k}$. De fet, si prenem $V=\mathbb{R}^n$, $u_0=0$ i $(u_1,\ldots,u_n)$ la base can\`{o}nica de $\mathbb{R}^n$ i considerem $\Delta_k\subseteq\mathbb{R}^k$, $\Delta_{n-k}\subseteq\mathbb{R}^{n-k}$; aleshores \'{e}s veritat que $(\lambda+\mu)\Delta_n=\bigcup_{k=0}^n\mu\cdot\Delta_k\times(\lambda\cdot\Delta_{n-k}+(\mu,\ldots,\mu))$.
+
+\begin{teorema}\label{Teo:descomsimplex}
+(Descomposici\'{o} simplicial) Tot pol\'{i}top convex compacte t\'{e} una descomposici\'{o} simplicial finita, \'{e}s a dir, per tot $A\in\mathcal{P}(V)$ existeixen s\'{i}mplexs $B_1,\ldots,B_s$ tals que per tot $i\neq j$ $B_i\cap B_j$ \'{e}s buida o un s\'{i}mplex de dimensi\'{o} m\'{e}s petita i tals que
+\[A=\bigcup_{i=1}^sB_i.\]
+\end{teorema}
+
+\begin{definicio}\label{Def:homogenia}
+Es diu que una valoraci\'{o} $\phi\in\Val(V)$ \'{e}s \textbf{homog\`{e}nia} de grau $i$ quan per tots $\lambda>0$, $K\in\mathcal{K}(V)$ es compleix
+\[\phi(\lambda K)=\lambda^i\phi(K).\]
+
+Denotem per $\Val_i(V)$ el conjunt d'aquestes valoracions homog\`{e}nies de grau $i$.
+\end{definicio}
+
+Es pot comprovar f\`{a}cilment que $\lambda(A\cup B)=(\lambda A)\cup(\lambda B)$ i que $\lambda(A\cap B)=(\lambda A)\cap(\lambda B)$. \'{E}s clar que $\Val_i(V)$ \'{e}s un subespai vectorial de $\Val(V)$. El teorema de descomposici\'{o} de McMullen precisament ens dir\`{a} que $\Val(V)$ es pot posar com a suma directa dels $\Val_i(V)$ variant $i$ des de $0$ fins $n$. Demostrarem primer la descomposici\'{o} pels pol\'{i}tops m\'{e}s senzills: els s\'{i}mplexs. Despr\'{e}s ho estendrem a tots els pol\'{i}tops gr\`{a}cies al Teorema \ref{Teo:descomsimplex}, que permet escriure tot pol\'{i}top com a uni\'{o} de s\'{i}mplexs. Per \'{u}ltim, farem el pas als conjunts convexos, aprofitant que tot conjunt convex es pot escriure com a l\'{i}mit de pol\'{i}tops.
+
+\begin{lema}\label{Lem:polisuma}
+Siguin $p$ un enter no negatiu. Aleshores existeix un polinomi de grau $p+1$ $f:\mathbb{Z}_{\geq0}\rightarrow\mathbb{Z}_{\geq0}$ tal que per tot $n$ enter no negatiu,
+\[\sum_{k=0}^nk^p=f(n),\]
+on es pren el conveni $0^0=1$.
+\end{lema}
+\begin{proof}
+Fem la demostraci\'{o} per inducci\'{o} sobre $p$.
+
+Comencem pel cas $p=0$. Per tot $n$ no negatiu tenim
+\[\sum_{k=0}^nk^0=\sum_{k=0}^n1=n+1,\]
+que \'{e}s un polinomi de grau $1$ sobre $n$.
+
+Ara fixem un $p$ no negatiu suposem com a hip\`{o}tesi d'inducci\'{o} que per tot $l\leq p$, existeix un polinomi de grau $l+1$ $f_l:\mathbb{Z}_{\geq0}\rightarrow\mathbb{Z}_{\geq0}$ tal que per tot $n$, $\sum_{k=0}^nk^l=f_l(n)$. Volem trobar un polinomi de grau $p+2$ $f_{p+1}:\mathbb{Z}_{\geq0}\rightarrow\mathbb{Z}_{\geq0}$ tal que per tot $n$, $\sum_{k=0}^nk^{p+1}=f_{p+1}(n)$. Primer treballem una mica amb sumatoris, on farem servir la f\'{o}rmula del binomi de Newton.
+
+\[\sum_{k=0}^nk^{p+2}+(n+1)^{p+2}=\sum_{k=0}^{n+1}k^{p+2}=\sum_{k=0}^n(k+1)^{p+2}=\sum_{k=0}^n\sum_{l=0}^{p+2}\binom{p+2}{l}k^l\]
+\[=\sum_{l=0}^{p+2}\sum_{k=0}^n\binom{p+2}{l}k^l=\sum_{k=0}^nk^{p+2}+\sum_{l=0}^{p+1}\binom{p+2}{l}\sum_{k=0}^nk^l\]
+
+D'aqu\'{i} podem a\"{i}llar $(n+1)^{p+2}$ per expressar-ho en funci\'{o} de sumes de $k^l$.
+
+\[(n+1)^{p+2}=\sum_{l=0}^{p+1}\binom{p+2}{l}\sum_{k=0}^nk^l=(p+2)\sum_{k=0}^nk^{p+1}+\sum_{l=0}^p\binom{p+2}{l}f_l(n)\]
+
+Ara podem a\"{i}llar la suma dels $k^{p+1}$.
+
+\[\sum_{k=0}^nk^{p+1}=\frac{1}{p+2}\left((n+1)^{p+2}-\sum_{l=0}^p\binom{p+2}{l}f_l(n)\right)=f_{p+1}(n)\]
+
+Veiem que $f_{p+1}(n)$ \'{e}s un polinomi de grau $p+2$ sobre $n$, ja que els $f_l(n)$ amb $l=0,\ldots,p$ s\'{o}n polinomis de grau m\'{e}s petit o igual que $p+1$ per hip\`{o}tesi d'inducci\'{o} i a m\'{e}s $(n+1)^{p+2}$ \'{e}s un polinomi de grau $p+2$.
+\end{proof}
+
+El Lema \ref{Lem:polisuma} diu que, fixat un $p$, la suma $1^p+2^p+\cdots+n^p$ \'{e}s un polinomi sobre $n$. De fet, amb la f\'{o}rmula de Faulhaber, es pot explicitar aquest polinomi en termes dels nombres de Bernoulli, per\`{o} no necessitarem un resultat tan fi.
+
+\begin{lema}\label{Lem:poliresta}
+Una successi\'{o} de nombres complexos $f:\mathbb{Z}_{\geq0}\rightarrow\mathbb{C}$ \'{e}s un polinomi de grau m\'{e}s petit o igual que $d$ si i nom\'{e}s si la funci\'{o}
+\begin{align*}
+    g:\mathbb{Z}_{\geq0}&\longrightarrow\mathbb{C}\\
+    \lambda&\longmapsto f(\lambda+1)-f(\lambda)
+\end{align*}
+\'{e}s un polinomi de grau m\'{e}s petit o igual que $d-1$.
+\end{lema}
+\begin{proof}
+Primer provem una implicaci\'{o}. Suposem que $f$ \'{e}s un polinomi de grau com a m\`{a}xim $d$ i vegem que $g$ \'{e}s un polinomi de grau com a molt $d-1$. Escrivim $f(\lambda)=a_0+a_1\lambda+a_2\lambda^2+\cdots+a_d\lambda^d$. Llavors expressem $g(\lambda)$ amb sumatoris i desenvolupem el binomi de Newton, obtenint:
+\[g(\lambda)=f(\lambda+1)-f(\lambda)=\sum_{k=0}^da_k(\lambda+1)^k-\sum_{k=0}^da_k\lambda^k=\sum_{k=0}^d\sum_{l=0}^ka_k\binom{k}{l}\lambda^l-\sum_{k=0}^da_k\lambda^k.\]
+
+Tenim dos sumatoris encadenats: un sobre $k$ i l'altre sobre $l$. Estem sumant els termes del conjunt $\{(k,l)\in\mathbb{Z}_{\geq0}\times\mathbb{Z}_{\geq0}\,|\,l\leq k\}$. Per tant podem intercanviar els sumatoris respectant aquesta desigualtat.
+
+\[g(\lambda)=\sum_{l=0}^d\sum_{k=l}^da_k\binom{k}{l}\lambda^l-\sum_{l=0}^da_l\lambda^l=\sum_{l=0}^d\left(\sum_{k=l}^da_k\binom{k}{l}-a_l\right)\lambda^l\]
+
+Observem que, dins del sumatori, el terme $k=l$ val zero. Per tant podem no escriure'l, obtenint l'expressi\'{o} final per $g(\lambda)$:
+\[g(\lambda)=\sum_{l=0}^{d-1}\left(\sum_{k=l+1}^da_k\binom{k}{l}-a_l\right)\lambda^l.\]
+
+En l'expressi\'{o} anterior es veu expl\'{i}citament que $g$ \'{e}s un polinomi de grau com a m\`{a}xim $d-1$.
+\vspace{3mm}
+
+Ara provem l'altra implicaci\'{o}. La implicaci\'{o} anterior era de car\`{a}cter general: valia per qualsevol polinomi de qualsevol variable. La implicaci\'{o} que provarem ara s\'{i} necessitar\`{a} que els polinomis estiguin definits sobre $\mathbb{Z}_{\geq0}$. Suposem que $g$ \'{e}s un polinomi de grau com a m\`{a}xim $d-1$. Escrivim $g(\lambda)=b_0+b_1\lambda+b_2\lambda^2+\cdots+b_{d-1}\lambda^{d-1}$.
+
+\[f(\lambda)=g(\lambda-1)+f(\lambda-1)=g(\lambda-1)+g(\lambda-2)+f(\lambda-2)=\cdots=f(0)+\sum_{\mu=0}^{\lambda-1}g(\mu)\]
+
+\[f(\lambda)=f(0)+\sum_{\mu=0}^{\lambda-1}g(\mu)=f(0)+\sum_{\mu=0}^{\lambda-1}\sum_{k=0}^{d-1}b_k\mu^k=f(0)+\sum_{k=0}^{d-1}b_k\sum_{\mu=0}^{\lambda-1}\mu^k\]
+
+Pel Lema \ref{Lem:polisuma}, tenim que $\sum_{\mu=0}^{\lambda-1}\mu^k$ \'{e}s un polinomi sobre $\lambda$ de grau $k+1$. Per tant $f(\lambda)$ \'{e}s suma de polinomis de grau com a m\`{a}xim $d$ i, conseg\"{u}entment, $f$ \'{e}s un polinomi de grau m\'{e}s petit o igual que $d$.
+\end{proof}
+
+\begin{teorema}\label{Teo:valoraciopolinomial}
+Sigui $\phi$ una valoraci\'{o} sobre $\mathcal{P}(V)$ invariant per translacions. Siguin $A_1,\ldots A_s\in\mathcal{P}(V)$. Aleshores existeix un polinomi $p:\mathbb{Q}_{\geq0}^s\rightarrow\mathbb{C}$ de grau com a m\`{a}xim $n=\dim V$ tal que per tots $\lambda_1,\ldots\lambda_s\in\mathbb{Q}_{\geq0}$ racionals no negatius, $\phi(\lambda_1A_1+\cdots+\lambda_sA_s)=p(\lambda_1,\ldots,\lambda_s)$.
+\end{teorema}
+\begin{proof}
+Farem la prova per inducci\'{o} sobre $s$.
+
+Primer suposem que tenim ja el cas $s=1$, el qual provarem m\'{e}s endavant, i fem ara el pas inductiu. Fixat un $\lambda\in\mathbb{Q}_{\geq0}$, com hem dit a l'Exemple \ref{Exe:valoracions}.\ref{Exe:Minkowski}, $\phi(B+\lambda A)$ \'{e}s una valoraci\'{o} per $A$ i per $B$ per separat. Com que hem suposat el cas $s=1$, tenim 
+\[\phi(B+\lambda A)=\sum_{i=0}^nf_i(A,B)\lambda^i.\]
+
+Els coeficients $f_i(A,B)$ s\'{o}n valoracions respecte $A$ i respecte $B$. Vegem-ho:
+\begin{align*}
+\sum_{i=0}^nf_i(A_1\cup A_2,B)\lambda^i&=\phi(B+\lambda(A_1\cup A_2))=\phi(B+\lambda A_1)+\phi(B+\lambda A_2)-\phi(B+\lambda(A_1\cap A_2))\\
+&=\sum_{i=0}^n\big(f_i(A_1,B)+f_i(A_2,B)-f_i(A_1\cap A_2,B)\big)\lambda^i.
+\end{align*}
+
+Dos polinomis s\'{o}n iguals si i nom\'{e}s si tenen els mateixos coeficients. Per tant $f_i(A_1\cup A_2,B)=f_i(A_1,B)+f_i(A_2,B)-f_i(A_1\cap A_2,B)$. El mateix raonament mostra que els $f_i$ s\'{o}n valoracions respecte $B$. A m\'{e}s aquestes valoracions s\'{o}n invariant per translacions per ser $\phi$ invariant per translacions.
+
+\[\sum_{i=0}^nf_i(a+A,B)\lambda^i=\phi(B+\lambda(a+A))=\phi(B+\lambda a+\lambda A)=\phi(B+\lambda A)=\sum_{i=0}^nf_i(A,B)\lambda^i\]
+
+Amb aix\`{o} hem vist que els $f_i$ s\'{o}n invariants per translacions respecte de $A$. Fent el mateix argument es prova que ho s\'{o}n tamb\'{e} respecte de $B$. Per tant, si prenem $B=\lambda_1A_1+\cdots\lambda_{s-1}A_{s-1}$ i $A=A_s$, ens queda
+\[\phi(\lambda_1A_1+\cdots+\lambda_sA_s)=\sum_{i=0}^nf_i(\lambda_1A_1+\cdots+\lambda_{s-1}A_{s-1},A_s)\lambda_s^i,\]
+i podem aplicar la hip\`{o}tesi d'inducci\'{o} a $f_i(\lambda_1A_1+\cdots+\lambda_{s-1}A_{s-1},A_s)$ per dir que \'{e}s un polinomi sobre les variables $\lambda_1,\ldots,\lambda_{s-1}\in\mathbb{Q}_{\geq0}$. Per tant ja queda provat que $\phi(\lambda_1A_1+\cdots+\lambda_sA_s)$ \'{e}s un polinomi. Nom\'{e}s queda veure que t\'{e} grau m\'{e}s petit o igual que $n$. Per veure-ho n'hi ha prou amb que, per tots $\lambda_1,\ldots,\lambda_s\in\mathbb{Q}_{\geq0}$ fixos, l'aplicaci\'{o}
+\[\lambda\longmapsto\phi(\lambda(\lambda_1A_1+\cdots+\lambda_sA_s))\]
+sigui un polinomi de grau com a m\`{a}xim $n$. Per\`{o} aix\`{o} es dedueix del cas $s=1$.
+\vspace{3mm}
+
+Fem la base de la inducci\'{o}, \'{e}s a dir, demostrem l'enunciat per $s=1$, el qual queda redu\"{i}t a veure que, fixat un pol\'{i}top $A\in\mathcal{P}(V)$ qualsevol, $\phi(\lambda A)$ \'{e}s una expressi\'{o} polinomial sobre $\lambda\in\mathbb{Q}_{\geq0}$ amb grau m\'{e}s petit o igual que $n$. Vegem que n'hi ha prou amb veure que \'{e}s un polinomi sobre $\lambda\in\mathbb{Z}_{\geq0}$.
+
+Suposem que $\phi(\lambda A)$ \'{e}s un polinomi sobre $\lambda\in\mathbb{Z}_{\geq0}$ i veurem que tamb\'{e} ser\`{a} un polinomi sobre $\lambda\in\mathbb{Q}_{\geq0}$. Per cada $A\in\mathcal{P}(V)$ i $\lambda\in\mathbb{Z}_{\geq0}$ llavors tindrem
+\[\phi(\lambda A)=\sum_{i=0}^n\phi_i(A)\lambda^i,\]
+per certs coeficients $\phi_i(A)$. Vegem primer que per tot $N\in\mathbb{Z}_{>0}$, $\phi_i(\frac{1}{N}A)N^i=\phi_i(A)$. Observem que per tot $M\in\mathbb{Z}_{\geq0}$,
+\begin{align*}
+\phi(MA)&=\sum_{i=0}^n\phi_i(A)M^i,\\
+\phi(MA)=\phi\left(NM\frac{1}{N}A\right)&=\sum_{i=0}^n\phi_i\left(\frac{1}{N}A\right)N^iM^i.
+\end{align*}
+
+Per tant tenim dos polinomis sobre $M\in\mathbb{Z}_{\geq0}$
+\[\sum_{i=0}^n\phi_i(A)M^i=\sum_{i=0}^n\phi_i\left(\frac{1}{N}A\right)N^iM^i\]
+que s\'{o}n iguals. Per ser iguals, han de tenir els mateixos coeficients, cosa que implica que $\phi_i(\frac{1}{N}A)N^i=\phi_i(A)$.
+
+Ara ja si tenim $\lambda=\frac{M}{N}\in\mathbb{Q}_{\geq0}$ amb $N\in\mathbb{Z}_{>0}$, $M\in\mathbb{Z}_{\geq0}$, tindrem
+\[\phi(\lambda A)=\phi\left(M\frac{1}{N}A\right)=\sum_{i=0}^n\phi_i\left(\frac{1}{N}A\right)M^i=\sum_{i=0}^n\phi_i(A)\frac{M^i}{N^i}=\sum_{i=0}^n\phi_i(A)\lambda^i,\]
+que \'{e}s el polinomi que vol\'{i}em.
+
+Amb aix\`{o}, ara hem de veure que $\phi(\lambda A)$ \'{e}s un polinomi sobre $\lambda\in\mathbb{Z}_{\geq0}$. Gr\`{a}cies al Teorema \ref{Teo:descomsimplex}, el pol\'{i}top $A$ es pot descompondre com una uni\'{o} de s\'{i}mplexs $\Delta_1,\ldots,\Delta_s$. El Teorema \ref{Teo:inex} ens permet fer servir la propietat d'inclusi\'{o}-exclusi\'{o} a aquesta uni\'{o}.
+
+\[\phi(\lambda A)=\phi\left(\lambda\bigcup_{i=1}^s\Delta_i\right)=\phi\left(\bigcup_{i=1}^s
+\lambda\Delta_i\right)=\sum_{\substack{I\subseteq\{1,\ldots,s\}\\I\neq\emptyset}}(-1)^{\#I-1}\phi\left(\bigcap_{i\in I}\lambda\Delta_i\right)=\sum_{\substack{I\subseteq\{1,\ldots,s\}\\I\neq\emptyset}}(-1)^{\#I-1}\phi\left(\lambda\bigcap_{i\in I}\Delta_i\right)\]
+
+Hem pogut passar el $\lambda$ dins de la uni\'{o} i fora de la intersecci\'{o} pel comentari fet sota la Definici\'{o} \ref{Def:homogenia}. El Teorema \ref{Teo:descomsimplex} ens diu que les interseccions $\bigcap_{i\in I}\Delta_i$ s\'{o}n buides o s\'{i}mplexs i per tant $\lambda\bigcap_{i\in I}\Delta_i$ s\'{o}n s\'{i}mplexs tamb\'{e}. Amb aix\`{o}, si tingu\'{e}ssim que $\phi(\lambda\Delta)$ \'{e}s un polinomi per qualsevol s\'{i}mplex $\Delta$, ja ho tindr\'{i}em pel conjunt $A$ gen\`{e}ric gr\`{a}cies a l'expressi\'{o} de dalt.
+
+Havent fet aquest argument, podem suposar que $A=\Delta_m$ \'{e}s un $m$-s\'{i}mplex. Demostrem que $\phi(\lambda\Delta_m)$ \'{e}s un polinomi de grau com a molt $m$ per inducci\'{o} sobre $m$. Per $m=0$, $\phi(\lambda\Delta_0)$ \'{e}s un polinomi constant, ja que $\Delta_0=\{x\}$ i per tant $\phi(\lambda\Delta_0)=\phi(\{\lambda x\})=\phi((\lambda-1)x+\Delta_0)=\phi(\Delta_0)$, ja que $\phi$ \'{e}s invariant per translacions.
+
+Fem el pas inductiu. Fixem $m\geq0$ i suposem que $\phi(\lambda\Delta_k)$ \'{e}s un polinomi sempre que $\Delta_k$ \'{e}s un $k$-s\'{i}mplex amb $k\leq m$. Ho provarem per dimensi\'{o} $m+1$.
+
+Sigui $\Delta_{m+1}$ un $m+1$-s\'{i}mplex amb v\`{e}rtexs $a_0,\ldots,a_{m+1}$. Podem suposar que $a_0=0$, ja que $\phi(\Delta_{m+1})=\phi(\Delta_{m+1}-a_0)$ per ser $\phi$ invariant per translacions. En virtut del Lema \ref{Lem:poliresta}, per provar que $\phi(N\Delta_{m+1})$ \'{e}s un polinomi de grau m\'{e}s petit o igual que $m+1$ sobre $N$, n'hi ha prou amb provar que $\phi((N+1)\Delta_{m+1})-\phi(N\Delta_{m+1})$ \'{e}s un polinomi de grau com a molt $m$ sobre $N\in\mathbb{Z}_{\geq0}$.
+
+La Proposici\'{o} \ref{Pro:referenciaafin} dona un sistema de refer\`{e}ncia af\'{i} format pel punt $0$ i els vectors $u_1,\ldots,u_{m+1}$ en el qual $\Delta_{m+1}=\{0\leq x_1\leq\cdots\leq x_{m+1}\leq1\}$. Podem escriure
+\[(N+1)\cdot\Delta_{m+1}=(N\cdot\Delta_{m+1})\cup T(N),\]
+on
+\[T(N)=\{0\leq x_1\leq\cdots\leq x_{n+1}\leq N+1\,|\,x_{m+1}\geq N\},\]
+perqu\`{e} $N\cdot\Delta_{m+1}=\{0\leq x_1\leq\cdots\leq x_{m+1}\leq N\}=\{0\leq x_1\leq\cdots\leq x_{m+1}\leq N+1\,|\,x_{m+1}\leq N\}$. D'aquesta manera, $(N\cdot\Delta_{m+1})\cup T(N)=\{0\leq x_1\leq\cdots\leq x_{m+1}\leq N+1\,|\,x_{m+1}\leq N\text{ o }x_{m+1}\geq N\}=(N+1)\cdot\Delta_{m+1}$.
+
+Per la propietat d'inclusi\'{o}-exclusi\'{o} $\phi((N+1)\cdot\Delta_{m+1})=\phi(N\cdot\Delta_{m+1})+\phi(T(N))-\phi((N\cdot\Delta_{m+1})\cap T(N))$. Per tant $\phi((N+1)\cdot\Delta_{m+1})-\phi(N\cdot\Delta_{m+1})=\phi(T(N))-\phi((N\cdot\Delta_{m+1})\cap T(N))$.
+
+\[(N\cdot\Delta_{m+1})\cap T(N)=\{0\leq x_1\leq\cdots\leq x_{m+1}=N\}=\{Nu_{m+1}+x_1Nu_1+\cdots+x_mNu_m\,|\,0\leq x_1\leq\cdots\leq x_m\leq1\}\]
+
+$(N\cdot\Delta_{m+1})\cap T(N)$ \'{e}s per tant el s\'{i}mplex donat per $Nu_{m+1},Nu_1,\ldots Nu_m$ i en particular \'{e}s un $m$-s\'{i}mplex, al qual podem aplicar la hip\`{o}tesi d'inducci\'{o}. Aix\'{i} doncs, $\phi((N\cdot\Delta_{m+1})\cap T(N))$ \'{e}s un polinomi en $N$ de grau com a molt $m$.
+
+Ara nom\'{e}s queda provar que $T(N)$ \'{e}s un polinomi de grau m\'{e}s petit o igual que $m$. El Teorema \ref{Teo:Hadwiger} ens permet descompondre $T(N)=(N+1)\Delta_{m+1}\cap\{x_{m+1}\geq N\}$ en
+\[T(N)=\bigcup_{k=0}^mT_k(N),\]
+on $T_k(N)=N\Delta_k+(\Delta_{m+1-k}+(N,\ldots,N))=\{0\leq x_1\leq\cdots\leq x_k\leq N\leq x_{k+1}\leq\cdots\leq x_{m+1}\leq N+1\}$. Apliquem novament la propietat d'inclusi\'{o}-exclusi\'{o}:
+\[\phi(T(N))=\sum_{\substack{I\subseteq\{1,\ldots,m\}\\I\neq\emptyset}}(-1)^{\#I-1}\phi\left(\bigcap_{k\in I}T_k(N)\right),\]
+gr\`{a}cias a la qual nom\'{e}s cal provar que $\phi$ aplicada a aquestes interseccions \'{e}s un polinomi de grau com a molt $m$. 
+
+Comencem en el cas $\#I=1$. $\phi(T_k(N))=\phi(N\Delta_k+(\Delta_{m+1-k}+(N,\ldots,N)))=\phi(N\Delta_k+\Delta_{m+1-k})$. Recordem que, fixat $\Delta_{m+1-k}$ i variant $K\in\mathcal{P}(V)$, l'aplicaci\'{o} $K\mapsto\phi(K+\Delta_{m+1-k})$ \'{e}s una valoraci\'{o} invariant per translacions sobre els pol\'{i}tops $k$-dimensionals. Com que $k\leq m$, per hip\`{o}tesi d'inducci\'{o}, $\phi(T_k(N))=\phi(N\Delta_k+\Delta_{m+1-k})$ \'{e}s un polinomi de grau com a m\`{a}xim $m$.
+
+Ara fem el cas $\#I\geq2$. Posem $I=\{k_1,\ldots,k_s\}$ amb $k_1<\cdots<k_s$.
+
+\begin{align*}
+\bigcap_{i=1}^sT_{k_i}(N)&=\{0\leq x_1\leq\cdots\leq x_{k_1}\leq N\leq x_{k_1+1}\leq\cdots\leq x_{k_s}\leq N\leq x_{k_s+1}\leq\cdots\leq x_{m+1}\leq N+1\}\\
+&=\{0\leq x_1\leq\cdots\leq x_{k_1}\leq x_{k_1+1}=\cdots=x_{k_s}=N\leq x_{k_s+1}\leq\cdots\leq x_{m+1}\leq N+1\}\\
+&=N\Delta_{k_1}+\Delta_{m+1-k_s}+(N,\ldots,N),
+\end{align*}
+on $\Delta_{m+1-k_s}=\{0\leq x_{k_s+1}\leq\cdots\leq x_{m+1}\leq1\}$ \'{e}s el s\'{i}mplex donat per $0,u_{k_s+1},\ldots,u_{m+1}$. $(N,\ldots,N)=Nu_{k_1+1}+\cdots+Nu_{m+1}$.
+
+\[\phi\left(\bigcap_{i=1}^sT_{k_i}(N)\right)=\phi(N\Delta_{k_1}+\Delta_{m+1-k_s}+(N,\ldots,N))=\phi(N\Delta_{k_1}+\Delta_{m+1-k_s})\]
+
+Com en el cas $\#I=1$, de la hip\`{o}tesi d'inducci\'{o} dedu\"{i}m que $\phi(N\Delta_{k_1}+\Delta_{m+1-k_s})$ \'{e}s un polinomi de grau m\'{e}s petit o igual que $m$.
+\end{proof}
+
+D'aquest teorema que acabem de demostrar es dedueix f\`{a}cilment el teorema de descomposici\'{o} de McMullen. Anem a veure algun resultat previ per finalment demostrar-lo.
+
+\begin{teorema}\label{Teo:politopsdensos}
+$\mathcal{P}(V)$ \'{e}s dens en $\mathcal{K}(V)$ amb la topologia donada per la dist\`{a}ncia de Hausdorff.
+\end{teorema}
+
+Aquest teorema ens permet aproximar qualsevol convex compacte per una successi\'{o} de pol\'{i}tops convexos compactes.
+
+\begin{proposicio}\label{Pro:convergenciapolinomis}
+Considerem l'espai de polinomis $\mathbb{R}\rightarrow\mathbb{C}$ amb la norma
+\[||a_0+a_1x+a_2x^2+\cdots+a_nx^n||=a_0^2+a_1^2+a_2^2+\cdots+a_n^2.\]
+
+Sigui $p_i:\mathbb{R}\rightarrow\mathbb{C}$ per $i\in\mathbb{N}$ una successi\'{o} de polinomis de grau m\'{e}s petit o igual que $n$. Siguin $x_0,\ldots,x_n\in\mathbb{R}$ diferents dos a dos tals que $p_i(x_k)$ \'{e}s convergent en $\mathbb{C}$ quan $i\to\infty$. Aleshores existeix un polinomi $p:\mathbb{R}\rightarrow\mathbb{C}$ de grau m\'{e}s petit o igual que $n$ tal que $p_i\xrightarrow[i\to\infty]{}p$ en la norma definida abans. A m\'{e}s per tot $x\in\mathbb{R}$, $p_i(x)\xrightarrow[i\to\infty]{}p(x)$.
+\end{proposicio}
+\begin{proof}
+Escrivim $p_i(x)=a_0^i+a_1^ix+\cdots+a_n^ix^n$. Per cada $i,k$ tenim $a_0^i+a_1^ix_k+\cdots+a_n^ix_k^n=p_i(x_k)$. Per cada $i$ podem escriure-ho en forma matricial.
+
+\[\left(\begin{matrix}1&x_0&x_0^2&\ldots&x_0^n\\\vdots&\vdots&\vdots&\ddots&\vdots\\1&x_n&x_n^2&\cdots&x_n^n\end{matrix}\right)\left(\begin{matrix}a_0^i\\\vdots\\a_n^i\end{matrix}\right)=\left(\begin{matrix}p_i(x_0)\\\vdots\\p_i(x_n)\end{matrix}\right)\]
+
+Si escrivim les matrius $B\in M_{n+1}(\mathbb{R})$ amb $[B]_{kj}=x_k^j$, $A^i\in M_{(n+1)\times1}(\mathbb{C})$ amb $[A^i]_{j1}=a_j^i$ i $C^i\in M_{(n+1)\times1}(\mathbb{C})$ amb $[C^i]_{k1}=p_i(x_k)$ per $k,j=0,\ldots,n$ i $i\in\mathbb{N}$, aleshores l'equaci\'{o} anterior es tradueix a
+\[B\cdot A^i=C^i.\]
+
+Observem que $B$ \'{e}s la matriu de Vandermonde. Per tant tindr\`{a} determinant
+\[\det(B)=\prod_{0\leq k<l\leq n}(x_k-x_l),\]
+que ser\`{a} diferent de $0$ perqu\`{e} els $x_k$ s\'{o}n diferents dos a dos. Per tant podem invertir $B$, amb el qual queda $A^i=B^{-1}C^i$.
+
+Per hip\`{o}tesi, els $p_i(x_k)$ convergeixen quan $i\to\infty$. Per tant existeix una certa $C\in M_{(n+1)\times1}(\mathbb{C})$ tal que $C^i\xrightarrow[i\to\infty]{}C$. Per tant, $A^i\xrightarrow[i\to\infty]{}B^{-1}C$. Si escrivim $[B^{-1}C]_{j1}=a_j$ i $p(x)=a_0+a_1x+a_2x^2+\cdots+a_nx^n$, aleshores tenim que els $p_i\xrightarrow[i\to\infty]{}p$ amb la norma definida a l'enunciat.
+
+Tenim que tots els coeficients convergeixen: $a_j^i\xrightarrow[i\to\infty]{}a_j$. Per tant per qualsevol $x\in\mathbb{R}$, $p_i(x)=a_0^i+a_1^ix+a_2^ix^2+\cdots+a_n^ix^n\xrightarrow[i\to\infty]{}a_0+a_1x+a_2x^2+\cdots+a_nx^n=p(x)$.
+\end{proof}
+
+\begin{teorema}
+(Descomposici\'{o} de McMullen) L'espai de valoracions $\Val(V)$ es pot posar com a suma directa dels espais de valoracions homog\`{e}nies de grau $i$ $\Val_i(V)$ variant $i$ des de $0$ fins $n$.
+\[\Val(V)=\bigoplus_{i=0}^n\Val_i(V)\]
+\end{teorema}
+\begin{proof}
+
+Comencem veient que tota valoraci\'{o} de $\Val(V)$ es pot descompondre com a suma de valoracions $i$-homog\`{e}nies des de $i=0$ fins a $n$.
+
+Sigui $\phi\in\Val(V)$. Comencem veient que fixat un $K\in\mathcal{K}(V)$, $\phi(\lambda K)$ \'{e}s un polinomi sobre $\lambda\in\mathbb{R}_{\geq0}$.
+
+Sigui $K\in\mathcal{P}(V)$. Pel Teorema \ref{Teo:valoraciopolinomial}, existeixen $\phi_0(K),\ldots,\phi_n(K)$ tals que per tot $\lambda\in\mathbb{Q}_{\geq0}$, $\phi(\lambda K)=\phi_0(K)+\phi_1(K)\lambda+\cdots+\phi_n(K)\lambda^n$. Considerem les funcions
+\[
+\begin{split}
+f:\mathbb{Q}_{\geq0}&\longrightarrow\mathbb{C},\\
+\lambda&\longmapsto\sum_{j=0}^n\phi_j(K)\lambda^j\end{split}\hspace{7mm}\begin{split}g:\mathbb{R}_{\geq0}&\longrightarrow\mathbb{C},\\
+\lambda&\longmapsto\sum_{j=0}^n\phi_j(K)\lambda^j\end{split}\hspace{7mm}\begin{split}h:\mathbb{R}_{\geq0}&\longrightarrow\mathbb{C}.\\
+\lambda&\longmapsto\vphantom{\sum_{j=0}^n}\phi(\lambda K)
+\end{split}
+\]
+
+Aleshores $g$ \'{e}s cont\'{i}nua perqu\`{e} \'{e}s un polinomi i $h$ \'{e}s cont\'{i}nua perqu\`{e} $\phi$ \'{e}s cont\'{i}nua. A m\'{e}s, les restriccions a $\mathbb{Q}_{\geq0}$ s\'{o}n iguals: $g|_{\mathbb{Q}_{\geq0}}=f=h|_{\mathbb{Q}_{\geq0}}$, essent $\mathbb{Q}_{\geq0}$ dens en $\mathbb{R}_{\geq0}$. Per tant tenim que $g=h$, fet que dona la polinomialitat de $\phi(\lambda K)$ sobre $\lambda\in\mathbb{R}_{\geq0}$ per un $K\in\mathcal{P}(V)$ qualsevol.
+
+Ara volem estendre la polinomialitat a $\mathcal{K}(V)$. Sigui $K\in\mathcal{K}(V)$. Pel Teorema \ref{Teo:politopsdensos}, els pol\'{i}tops s\'{o}n densos sobre els convexos i per aix\`{o} tenim una successi\'{o} $P_i\in\mathcal{P}(V)$ amb $i\in\mathbb{N}$ tal que $P_i\xrightarrow[i\to\infty]{}K$ amb la dist\`{a}ncia de Hausdorff. Sigui
+\begin{align*}
+p_i:\mathbb{R}_{\geq0}&\longrightarrow\mathbb{C}.\\
+\lambda&\longmapsto\phi(\lambda P_i)
+\end{align*}
+
+Pel que hem vist abans, els $p_i$ s\'{o}n polinomis de grau m\'{e}s petit o igual que $n$. A m\'{e}s, per continu\"{i}tat de $\phi$, per tot $\lambda\in\mathbb{R}_{\geq0}$, $p_i(\lambda)=\phi(\lambda P_i)\xrightarrow[i\to\infty]{}\phi(\lambda K)$. Per la Proposici\'{o} \ref{Pro:convergenciapolinomis}, existeix un polinomi $p:\mathbb{R}_{\geq0}\rightarrow\mathbb{C}$ de grau m\'{e}s petit o igual que $n$ tal que per tot $\lambda\in\mathbb{R}$, $p_i(\lambda)\xrightarrow[i\to\infty]{}p(\lambda)$. Per unicitat del l\'{i}mit, tenim que $\phi(\lambda K)=p(\lambda)$.
+
+Amb aix\`{o}, existeixen aplicacions $\phi_0,\ldots,\phi_n:\mathcal{K}(V)\rightarrow\mathbb{C}$ tals que per tot $K\in\mathcal{K}(V)$ i tot $\lambda\in\mathbb{R}_{\geq0}$,
+\[\phi(\lambda K)=\sum_{j=0}^n\phi_j(K)\lambda^j.\]
+
+\'{E}s f\`{a}cil veure que els $\phi_j$ s\'{o}n valoracions $j$-homog\`{e}nies invariants per translacions: donats $A,B\in\mathcal{K}(V)$ amb $A\cup B\in\mathcal{K}(V)$, $x\in V$ i $\mu\in\mathbb{R}_{\geq0}$, per tot $\lambda\in\mathbb{R}_{\geq0}$,
+\[\sum_{j=0}^n\phi_j(A+B)\lambda^j=\phi(\lambda(A+B))=\phi(\lambda A)+\phi(\lambda B)-\phi(\lambda(A\cap B))=\sum_{j=0}^n(\phi_j(A)+\phi_j(B)-\phi_j(A\cap B))\lambda^j,\]
+\[\sum_{j=0}^n\phi_j(\mu A)\lambda^j=\phi(\lambda(\mu A))=\phi(\mu\lambda A)=\sum_{j=0}^n\phi_j(A)\mu^j\lambda^j,\]
+\[\sum_{j=0}^n\phi_j(A+x)\lambda^j=\phi(\lambda(A+x))=\phi(\lambda A)=\sum_{j=0}^n\phi_j(A)\lambda^j.\]
+
+La igualtat de polinomis sobre $\lambda$ dona la igualtat de coeficients. Vegem ara que $\phi_j$ s\'{o}n cont\'{i}nues. Sigui $\{K_i\}_{i\in\mathbb{N}}\subseteq\mathcal{K}(V)$ una successi\'{o} de convexos tal que $K_i\xrightarrow[i\to\infty]{}K$ per un cert $K\in\mathcal{K}(V)$. Sigui $p_i(\lambda)=\phi(\lambda K_i)$. Els $p_i$ formen una successi\'{o} de polinomis de grau com a molt $n$ que a m\'{e}s ---per continu\"{i}tat de $\phi$--- compleix que per tot $\lambda\in\mathbb{R}_{\geq0}$, $p_i(\lambda)\xrightarrow[i\to\infty]{}\phi(\lambda K)$. Per la Proposici\'{o} \ref{Pro:convergenciapolinomis} existeix un polinomi $p:\mathbb{R}_{\geq0}\rightarrow\mathbb{C}$ tal que $p_i\xrightarrow[i\to\infty]{}p$ en el sentit que els coeficients de $p_i$ convergeixen als coeficients de $p$. Per unicitat del l\'{i}mit, $p(\lambda)=\phi(\lambda K)$. Amb aix\`{o}, el $j$-\`{e}sim coeficient de $p_i$ \'{e}s $\phi_j(K_i)$ i el $j$-\`{e}sim coeficient de $p$ \'{e}s $\phi_j(K)$. Per tant $\phi_j(K_i)\xrightarrow[i\to\infty]{}\phi_j(K)$ i $\phi_j$ s\'{o}n cont\'{i}nues.
+
+Hem vist llavors que
+\[\phi=\sum_{j=0}^n\phi_j,\]
+on $\phi_j\in\Val_j(V)$.
+
+Nom\'{e}s queda veure que la suma \'{e}s directa. Aix\`{o} \'{e}s molt directe, ja que si tenim una valoraci\'{o} $\phi\in\Val_i(V)\cap\Val_j(V)$ amb $i\neq j$, aleshores per tot $K\in\mathcal{K}(V)$, $2^i\phi(K)=\phi(2K)=2^j\phi(K)$, amb el qual $(2^i-2^j)\phi(K)=0$ i, com que $2^i-2^j\neq0$, ha de ser $\phi(K)=0$.
+\end{proof}
+
+El teorema de descomposici\'{o} de McMullen vol dir que tota valoraci\'{o} sobre $\mathcal{K}(V)$ cont\'{i}nua i invariant per translacions es pot escriure de manera \'{u}nica com a suma de valoracions homog\`{e}nies de grau $i$ amb $i$ des de $0$ fins a $n$. D'aquest teorema es pot desprendre un corol\textperiodcentered lari dona polinomialitat sobre $s$ variables per les valoracions sobre $\mathcal{K}(V)$.
+
+\begin{corollari}\label{Cor:McCullen}
+Sigui $\phi\in\Val(V)$. Aleshores per tots $A_1,\ldots,A_s\in\mathcal{K}(V)$ existeix un polinomi $p:\mathbb{R}_{\geq0}^s\rightarrow\mathbb{C}$ tal que per tots $\lambda_1,\ldots,\lambda_s\in\mathbb{R}_{\geq0}$, $\phi(\lambda_1A_1+\cdots+\lambda_sA_s)=p(\lambda_1,\ldots,\lambda_s)$.
+\end{corollari}
+
+\section{Teorema d'irreductibilitat d'Alesker}
+
+Tal com acabem de veure, el teorema de descomposici\'{o} de McMullen presenta una determinada descomposici\'{o} de Val($V$), el conjunt de valoracions continues i invariants per translacions sobre $\mathcal{K}(V)$. Tot i aix\'{i}, les components associades a aquesta descomposici\'{o} no s\'{o}n irreductibles, \'{e}s a dir, presenten subgrups invariants no trivials. Per aquest motiu, la descomposici\'{o} de McMullen no \'{e}s \`{o}ptima per a estudiar determinades propietats de Val($V$). En aquest apartat, usant el teorema d'irreductibilitat d'Alesker, trobarem una descomposici\'{o} amb components irreductibles que ens permeti estudiar m\'{e}s a fons Val($V$). Tot i aix\'{i}, abans d'arribar a aquest punt, hem de definir alguns conceptes previs.
+
+\begin{definicio}\label{Def:parell}
+Es diu que una valoraci\'{o} $\phi\in \Val(V)$ \'{e}s \textbf{parell} quan per a tot $K\in\mathcal{K}(V)$ es compleix
+\[\phi(-K)=\phi(K).\]
+
+Denotem per $\Val_i^+(V)$ el conjunt de totes les valoracions homog\`{e}nies de grau $i$ parelles per a tot $i$ entre $0$ i $n$.
+\end{definicio}
+
+\begin{definicio}\label{Def:imparell}
+Es diu que una valoraci\'{o} $\phi\in\Val(V)$ \'{e}s \textbf{imparell} quan per a tot $K\in\mathcal{K}(V)$ es compleix
+\[\phi(-K)=- \phi(K).\]
+
+Denotem per $\Val_i^-(V)$ el conjunt de totes les valoracions homog\`{e}nies de grau $i$ imparelles per a tot $i$ entre $0$ i $n$.
+\end{definicio}
+
+En particular, veiem que $\Val_i^+(V)$ i $\Val_i^-(V)$ son subespais vectorials de $\Val_i(V)$ per a tot $i$ entre $0$ i $n$.
+
+\begin{lema}\label{Lem:subespai+-}
+
+Considerem l'espai vectorial $\Val_i(V)$, format per les valoracions homog\`{e}nies de grau $i$. Aleshores:
+
+\begin{enumerate} [(i)]
+    \item $\Val_i^+(V)$ \'{e}s un subespai vectorial de $\Val_i(V)$ per a tot $i$ entre $0$ i $n$;
+    \item $\Val_i^-(V)$ \'{e}s un subespai vectorial de $\Val_i(V)$ per a tot $i$ entre $0$ i $n$.
+\end{enumerate}
+\end{lema}
+
+\begin{proof}
+Considerem $i$ entre $0$ i $n$ en ambdos casos.
+\begin{enumerate} [(i)]
+    \item En primer lloc, considerem $\phi_1, \phi_2 \in \Val_i^+(V)$. Aleshores, per a tot $K\in\mathcal{K}(V)$, es compleix que $\phi_1 + \phi_2 (-K) = \phi_1(-K) + \phi_2(-K) = \phi_1(K) + \phi_2(K) = \phi_1 + \phi_2 (K)$. Conseg\"{u}entment, $\phi_1 + \phi_2 \in \Val_i^+(V)$.
+    
+    En segon lloc, considerem $\phi \in \Val_i^+(V)$ i $\lambda \in \mathbb{C}$. Aleshores, per a tot $K \in \mathcal{K}(V)$, es compleix que $\lambda \phi(-K) = \lambda \phi(K)$. Conseg\"{u}entment, $\lambda\phi \in \Val_i^+(V)$.
+    
+    \item En primer lloc, considerem $\phi_1, \phi_2 \in \Val_i^-(V)$. Aleshores, per a tot $K\in\mathcal{K}(V)$, es compleix que $\phi_1 + \phi_2 (-K) = \phi_1(-K) + \phi_2(-K) = -\phi_1(K) - \phi_2(K) = - (\phi_1 + \phi_2) (K)$. Conseg\"{u}entment, $\phi_1 + \phi_2 \in \Val_i^-(V)$.
+    
+    En segon lloc, considerem $\phi \in \Val_i^-(V)$ i $\lambda \in \mathbb{C}$. Aleshores, per a tot $K \in \mathcal{K}(V)$, es compleix que $\lambda \phi(-K) = - \lambda \phi(K)$. Conseg\"{u}entment, $\lambda\phi \in \Val_i^-(V)$.
+\end{enumerate}
+\end{proof}
+
+Addicionalment, veiem que l'espai vectorial $\Val_i(V)$ es pot descomposar com a suma directa dels anteriors subespais vectorials per a tot $i$ entre $0$ i $n$.
+
+\begin{proposicio}\label{prop:sumaval}
+L'espai de valoracions homog\`{e}nies de grau $i$ $\Val_i(V)$ es pot posar com a suma directa dels espais de valoracions homog\`{e}nies de grau $i$ parelles i imparelles $\Val_i^+(V)$ i $\Val_i^-(V)$ per a tot $i$ entre $0$ i $n$.
+\[\Val_i(V)= \Val_i^+(V) \oplus \Val_i^-(V)\]
+\end{proposicio}
+
+\begin{proof}
+Sigui $i$ entre $0$ i $n$. Considerem una valoraci\'{o} homog\`{e}nia de grau $i$ $\phi \in \Val_i(V)$. En primer lloc, hem de veure que podem expressar $\phi$ com a suma d'una valoraci\'{o} homog\`{e}nia de grau $i$ parell i una valoraci\'{o} homog\`{e}nia de grau $i$ imparell. Considerem les funcions $\phi_1, \phi_2 \in \Val_i(V)$ definides, per a tot $K \in \mathcal{K}(V)$, com:
+
+\[ \phi_1(K) = \frac{\phi(K) + \phi(-K)}{2}, \hspace{1cm} \phi_2(K) = \frac{\phi(K) - \phi(-K)}{2}.\]
+
+Clarament, per a tot $K \in \mathcal{K}(V)$, es compleix que $\phi_1(-K) = \phi_1(K)$ i $\phi_2(-K) = - \phi_2(K)$. Per tant, $\phi_1 \in \Val_i^+(V)$ i $\phi_2 \in \Val_i^-(V)$, provant l'expressi\'{o} de $\phi$ com a suma $\phi_1 + \phi_2$. Nom\'{e}s falta veure que la suma \'{e}s directa. Considerem $\phi \in \Val_i^+(V) \cap \Val_i^-(V)$. Aleshores, $\phi \in \Val_i^+(V)$ i $\phi \in \Val_i^-(V)$. Per tant, per a tot $K \in \mathcal{K}(V)$, es compleix que $\phi(-K) = \phi(K)$ i $\phi(-K) = -\phi(K)$. Restant ambdues igualtats, obtenim que, per a tot $K \in \mathcal{K}(V)$, es compleix que $\phi(K) = 0$, provant el lema. 
+\end{proof}
+
+Clarament, usant el teorema de descomposici\'{o} de McMullen i la Proposici\'{o} \ref{prop:sumaval}, \'{e}s trivial que podem descomposar $\Val(V)$ com:
+
+\[ \Val(V) = \bigoplus^n_{i=0} ( \Val_i^+(V) \oplus \Val_i^-(V)).\]
+
+El teorema d'irreductibilitat d'Alesker afirma que aquesta descomposici\'{o} \'{e}s, de fet, la descomposici\'{o} amb components irreductibles de la qual parl\`{a}vem a l'inici de l'apartat. Per a poder enunciar el teorema formalment, seguim definint conceptes previs.
+
+\begin{definicio}\label{Def:GL}
+Sigui $V$ un espai vectorial complex de dimensi\'{o} $n$. Definim $\GL(V)$ o $\GL(n)$ com el conjunt de totes les aplicacions lineals bijectives de l'espai vectorial $V$ a si mateix. Addicionalment, podem dotar $\GL(V)$ d'estructura de grup usant la composici\'{o} entre funcions com l'operaci\'{o} del grup.
+\end{definicio}
+
+Addicionalment, veiem que $\GL(V)$ actua naturalment sobre $\Val(V)$.
+
+\begin{proposicio}\label{prop:accio}
+Sigui $g \in \GL(V)$ i $\phi \in \Val(V)$. Definim l'aplicaci\'{o}:
+
+\begin{align*}
+\varphi: \GL(V) \times \Val(V) &\longrightarrow \Val(V)\\
+(g, \phi)&\longmapsto (g \phi)
+\end{align*}
+
+on, l'aplicaci\'{o} $(g \phi)$ est\`{a} definida per a tot $K \in \mathcal{K}(V)$ com
+
+\[ (g \phi) (K) = \phi(g^{-1} (K)).\]
+
+L'aplicaci\'{o} $\varphi$ \'{e}s una acci\'{o} del grup $\GL(V)$ sobre $\Val(V)$.
+\end{proposicio}
+
+\begin{proof}
+
+En primer lloc, observem que, clarament, $(g \phi) \in \Val(V)$, doncs $\phi \in \Val(V)$ i $g^{-1}(K) \in \mathcal{K}(V)$ al ser $g$ una aplicaci\'{o} lineal bijectiva.
+
+Per altra banda, comprobem que l'aplicaci\'{o} $\varphi$ \'{e}s una acci\'{o}. En primer lloc, considerem l'aplicaci\'{o} identitat $Id \in \GL(V)$, que es correspon amb l'element neutre del grup $\GL(V)$. Aleshores, per a tot $\phi \in \Val(V)$ i $K \in \mathcal{K}(V)$, es compleix que $\varphi(id, \phi) (K) = \phi (id (K)) = \phi (K)$. Finalment, considerem $g_1, g_2 \in \GL(V)$. Aleshores, per a tot $\phi \in \Val(V)$ i $K \in \mathcal{K}(V)$, es compleix que $\varphi(g_1 \circ g_2, \phi) (K) = \phi(g_2^{-1} (g_1^{-1} (K))) = \varphi(g_2, \phi) (g_1^{-1} (K)) = \varphi (g_1, \varphi(g_2, \phi)) (K)$.
+\end{proof}
+
+A m\'{e}s a m\'{e}s, al dotar al conjunt $\Val(V)$ d'una estructura topol\`{o}gica donada naturalment per la norma definida per a tot $\phi \in \Val(V)$ com $|| \phi || = \sup \{ |\phi(A)|: A \subset B(0,1)\}$, es pot comprovar que l'acci\'{o} $\varphi$ \'{e}s continua.
+
+Per altra banda, veiem que l'acci\'{o} $\varphi$ preserva el grau d'homogene\"{i}tat de la valoraci\'{o}. Efectivament, si $\phi \in \Val_i(V)$, es compleix que, per a tot $g \in \GL(V)$, $K \in \mathcal{K}(V)$ i $\lambda > 0$, $\phi(g^{-1}(\lambda K)) = \phi(\lambda g^{-1}(K)) = \lambda^i \phi(g^{-1} (K))$.
+
+Addicionalment, veiem que l'acci\'{o} $\varphi$ preserva la propietat de ser parell o imparell. Per una banda, si $\phi \in \Val_i^+(V)$, es compleix que, per a tot $g \in \GL(V)$ i $K \in \mathcal{K}(V)$,
+$\phi(g^{-1} (-K)) = \phi(-g^{-1} (K)) = \phi(g^{-1} (K))$. Per altra banda, si $\phi \in \Val_i^-(V)$, es compleix que, per a tot $g \in \GL(V)$ i $K \in \mathcal{K}(V)$,
+$\phi(g^{-1} (-K)) = \phi(-g^{-1} (K)) = -\phi(g^{-1} (K))$
+
+Per tant, queda clar que $\varphi$ \'{e}s tamb\'{e} una acci\'{o} del grup $\GL(V)$ sobre $\Val_i(V)$ per a tot $i$ entre $0$ i $n$. En particular, $\varphi$ \'{e}s tamb\'{e} una acci\'{o} del grup $\GL(V)$ sobre $\Val_i^+(V)$ i $\Val_i^-(V)$ per a tot $i$ entre $0$ i $n$. Estudiem m\'{e}s acuradament l'acci\'{o} $\varphi$ del grup $\GL(V)$ sobre $\Val_i^+(V)$ i $\Val_i^-(V)$. 
+
+\begin{definicio}\label{Def:representacio}
+Considerem un grup $G$ i un espai vectorial complex $V$. Sigui $\rho: G \longrightarrow \GL(V)$ un homomorfisme. Definim $\rho$ com la \textbf{representaci\'{o}} del grup $G$ sobre l'espai vectorial complex $V$. Tamb\'{e} podem parlar directament, abusant del llenguatge, de la representaci\'{o} $V$.
+\end{definicio}
+
+Observem que definint $\rho (g) (\phi) := \varphi(g, \phi)$ per a tot $g \in \GL(V)$ i $\phi \in \Val_i^+(V)$, es compleix que l'aplicaci\'{o} $\rho: \GL(V) \longrightarrow \GL(\Val_i^+(V))$ \'{e}s un homomorfisme ben definit i, per tant, \'{e}s una representaci\'{o} del grup $\GL(V)$ sobre l'espai vectorial complex $\Val_i^+(V)$. En aquest cas, direm que $\rho: \GL(V) \longrightarrow \GL(\Val_i^+(V))$ \'{e}s la representaci\'{o} natural de $\GL(V)$ sobre $\Val_i^+(V)$ o, abusant de llenguatge, parlarem de la representaci\'{o} natural $\Val_i^+$. De manera an\`{a}loga, definint $\rho (g) (\phi) := \varphi(g, \phi)$ per a tot $g \in \GL(V)$ i $\phi \in \Val_i^-(V)$ es compleix que $\rho: \GL(V) \longrightarrow \GL(\Val_i^-(V))$ \'{e}s un homomorfisme ben definit i, per tant, \'{e}s una representaci\'{o} del grup $\GL(V)$ sobre l'espai vectorial complex $\Val_i^-(V)$. En aquest cas, direm que $\rho: \GL(V) \longrightarrow \GL(\Val_i^-(V))$ \'{e}s la representaci\'{o} natural de $\GL(V)$ sobre $\Val_i^-(V)$ o, abusant del llenguatge, de la representaci\'{o} natural $\Val_i^-$. Anem a veure que aquestes representacions naturals s\'{o}n, de fet, irreductibles.
+
+\begin{definicio}\label{Def:invariant}
+Considerem un grup $G$ i un espai vectorial complex $V$. Sigui $\varphi$ una acci\'{o} del grup $G$ sobre l'espai vectorial complex $V$. Sigui $W \subset V$ un subespai vectorial de $V$. Diem que $W$ \'{e}s \textbf{$G$-invariant} si, per a tot $g \in G$ i $w \in W$, es compleix que $\varphi(g, w) \in W$.
+\end{definicio}
+
+\begin{definicio}\label{Def:subrepresentacio}
+Sigui $\rho: G \longrightarrow \GL(V)$ una representaci\'{o} del grup $G$ sobre l'espai vectorial complex $V$. Sigui $W \subset V$ un subespai vectorial de $V$ $G$-invariant. Aleshores, diem que $W$ \'{e}s una \textbf{subrepresentaci\'{o}}.
+
+En particular, podem definir naturalment la restricci\'{o} $\varphi |_{W} = G \longrightarrow \GL(W)$, obtenint que $\varphi |_{W}$ \'{e}s una subrepresentaci\'{o} del grup $G$ sobre el subespai vectorial complex $W$.
+\end{definicio}
+
+Observem que tota representaci\'{o} $V$ presenta les subrepresentacions trivials constru\"{i}des a partir dels seg\"{u}ents subespais invariants: el conjunt format nom\'{e}s per l'element neutre  de $V$ i l'espai vectorial complex $V$ sencer.
+
+\begin{definicio}\label{Def:irreductible}
+Sigui $\rho: G \longrightarrow \GL(V)$ una representaci\'{o} no nul\textperiodcentered la del grup $G$ sobre l'espai vectorial complex $V$. Diem que $V$ \'{e}s una representaci\'{o} \textbf{irreductible} si nom\'{e}s presenta subrepresentacions trivials.
+\end{definicio}
+
+\begin{teorema}
+(Teorema d'irreductibilitat d'Alesker) Sigui $V$ un espai vectorial complex de dimensi\'{o} $n$. Aleshores, per a tot $i$ entre $0$ i $n$:
+
+\begin{enumerate}
+    \item La representaci\'{o} natural de $\GL(V)$ en $\Val_k^+(V)$ \'{e}s irreductible, \'{e}s a dir, no admet subespais vectorials $\GL(V)$-invariants no trivials.
+    \item La representaci\'{o} natural de $\GL(V)$ en $\Val_k^-(V)$ \'{e}s irreductible, \'{e}s a dir, no admet subespais vectorials $\GL(V)$-invariants no trivials.
+\end{enumerate}
+\end{teorema}
+
+Clarament, usant el teorema d'irreductibilitat d'Alesker, observem que la descomposici\'{o} de $\Val(V)$ donada per:
+
+\[ \Val(V) = \bigoplus^n_{i=0} ( \Val_i^+(V) \oplus \Val_i^-(V)).\]
+
+t\'{e} associades components irreductibles. En altres paraules, les components d'aquesta descomposici\'{o} no admeten subespais vectorials $\GL(V)$-invariants no trivials. Conseg\"{u}entment, podem estudiar el conjunt $\Val(V)$ a partir de l'estudi dels subespais vectorials $\GL(V)$-invariants pertanyenys a cada component.
+
+A continuaci\'{o}, estudiem una de les conseq\"{u}\`{e}ncies m\'{e}s importants del teorema d'irreductibilitat d'Alesker: la conjectura de McMullen. Tot i aix\'{i}, abans d'enunciar formalment la conjectura, hem de definir alguns conceptes previs. 
+
+\begin{definicio} \label{def:mixed}
+Considerem una valoraci\'{o} homog\`{e}nia de grau $i$ $\phi \in \Val_i(V)$ amb $0 \leq i \leq n$. Per a qualssevol $A_1, \dots, A_i \in \mathcal{K}(V)$, considerem el polinomi $\phi(\lambda_1 A_1 + \dots + \lambda_i A_i)$ en $\lambda_1, \dots, \lambda_i \geq 0$. Definim la \textbf{valoraci\'{o} mixta} $\phi(A_1, \dots, A_i)$ com el coeficient del polinomi $\phi(\lambda_1 A_1 + \dots + \lambda_i A_i)$ associat al terme $\lambda_1 \dots \lambda_i$ dividit per $i!$.
+\end{definicio}
+
+Observem que la valoraci\'{o} mixta est\`{a} ben definida perqu\`{e} $\phi(\lambda_1 A_1 + \dots + \lambda_i A_i)$ \'{e}s un polinomi en $\lambda_1, \dots, \lambda_i \geq 0$ per a tot $\phi \in \Val(V)$, $A_1, \dots, A_i \in \mathcal{K}(V)$ i $\lambda_1, \dots, \lambda_i \in \mathbb{R}_{\geq 0}$, tal com hem vist en el Corol\textperiodcentered lari \ref{Cor:McCullen}.
+
+\begin{definicio} \label{def:volmixt}
+Definim el \textbf{volum mixte} $V(A_1, \dots, A_n)$ com la valoraci\'{o} mixta $\phi(A_1, \dots, A_n)$ quan $\phi = \vol_n \in \Val_n(V)$.
+\end{definicio}
+
+Addicionalment, considerant $0 \leq i \leq n$ i $A_1, \dots, A_i \in \mathcal{K}(V)$ fixats, podem definir l'aplicaci\'{o} $\alpha: \mathcal{K}(V) \longrightarrow \mathbb{C}$ que actua, per a tot $K \in \mathcal{K}(V)$, com:
+
+\[ \alpha (K) = \vol_n(\underbrace{K, \dots, K}_{\mathclap{\text{$n-i$ vegades}}}, A_1, \dots, A_i). \]
+
+Observem que, com a conseq\"{u}\`{e}ncia del Corol\textperiodcentered lari \ref{Cor:McCullen}, es pot veure f\`{a}cilment que $\alpha \in \Val(V)$. A partir d'aquest moment parlarem, abusant del llenguatge, de les valoracions $\alpha$ com volums mixtes.  Amb aquesta noci\'{o} introdu\"{i}da, podem enunciar la conjectura de McMullen.
+
+\begin{teorema}
+(Conjectura de McMullen) L'espai d'aplicacions format per combinacions lineals de volums mixtes \'{e}s dens en $\Val(V)$.
+\end{teorema}
+
+Abans de demostrar la conjectura de McMullen, hem de definir alguns conceptes i enunciar alguns resultats que usarem durant la demostraci\'{o}.
+
+\begin{definicio}
+Definim, per a cada $i$ entre $0$ i $n$, el \textbf{volum intr\'{i}nsec} $i$
+com
+
+\[ V_i(K) = \frac{1}{\kappa_{n-i}} \binom{n}{i} V(\underbrace{K, \dots, K}_{\text{$i$ vegades}}, \underbrace{B, \dots, B}_{\mathclap{\text{$n - i$ vegades}}}),\]
+
+on $\kappa_{n - i}$ denota el volum de l'esfera euclidiana de radi unitat de dimensi\'{o} $(n - i)$ i $B$ denota l'esfera euclidiana de radi unitat de dimensi\'{o} $n$.
+\end{definicio}
+
+Observem que el volum intr\'{i}nsec no \'{e}s res m\'{e}s que el volum mixte normalitzat i calculat usant esferes euclidianes de radi unitat. Addicionalment, \'{e}s f\`{a}cil veure que $V_i \in \Val_i^+(V)$ per a tot $i$ entre $0$ i $n$.
+
+Per altra banda, enunciem diversos resultats generals relacionats amb el concepte de funcional de suport i mesures d'\`{a}rea associades a conjunts compactes convexos.
+
+\begin{definicio}
+Sigui $V$ un espai vectorial real de dimensi\'{o} finita. Per a tot $K \in \mathcal{K}(V)$, definim el \textbf{funcional de suport} associat a $K$ com la funci\'{o} homog\`{e}nia de grau 1 i convexa $h_K: V^{*} \longrightarrow \mathbb{R}$ definida en l'espai dual $V^{*}$ com $h_K (\omega) := \sup_{x \in K} \omega(x)$ per a tot $\omega \in V^{*}$.
+\end{definicio}
+
+\begin{teorema} \label{teo:s}
+Sigui $V$ un espai vectorial complex de dimensi\'{o} $n$ amb una m\`{e}trica fixada. Aleshores, per a tot $K \in \mathcal{K}(V)$, existeix una mesura no negativa $S_{n-1}(K, \cdot)$ definida a l'esfera euclidiana de radi unitat $S^{n-1}$. Addicionalment, si $K$ \'{e}s un pol\'{i}top no buit amb $n-1$ cares $\{ F_1, \dots, F_{n-1}\}$ amb $n-1$ normals exteriors unit\`{a}ries $\{ n_1, \dots, n_{n-1}\}$ associades a les cares, es compleix que:
+
+\[ S_{n-1}(K, \cdot) = \sum_{i=1}^{n-1} \vol_{n-1} (F_i) \delta_{n_i},\]
+
+on $\delta_{n_i}$ \'{e}s una mesura de Dirac associada a la normal $n_i$.
+
+\end{teorema}
+
+\begin{proposicio} \label{prop:2}
+Per a tot $A, K \in \mathcal{K}(V)$, es compleix que:
+
+\[ V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, A) = \frac{1}{n} \int_{S^{n-1}} h_A(u) dS_{n-1}(K,u),\]
+
+on $h_A$ \'{e}s el funcional de suport associat a $A$ i $S_{n-1}(K, \cdot)$ \'{e}s la mesura no negativa enunciada al teorema anterior.
+\end{proposicio}
+
+\begin{proposicio} \label{prop:s}
+Per a tot $K, L, K \cup L \in \mathcal{K}(V)$, es compleix la propietat additiva:
+
+\begin{equation} \label{eq:S}
+S_{n-1}(K \cup L, \cdot) = S_{n-1}(K,\cdot) + S_{n-1}(L,\cdot) - S_{n-1}(K \cap L,\cdot).
+\end{equation}
+
+\end{proposicio}
+
+\begin{proof}
+Per a demostrar la proposici\'{o}, \'{e}s suficient veure que integrant el funcional de suport $h_A$ associat a qualsevol $A \in \mathcal{K}(V)$ respecte les mesures presentades en ambd\'{o}s costats de l'Equaci\'{o} \eqref{eq:S}, obtenim el mateix resultat; doncs el conjunt de combinacions lineals de funcionals de suport associats a conjunts compactes convexos \'{e}s dens en $C(S^{n-1})$ usant la seva m\`{e}trica natural.
+
+Per una banda, usant la Proposici\'{o} \ref{prop:2}, obtenim integrant la part esquerra que:
+
+\[ \int_{S^{n-1}} h_A(u) dS_{n-1} (K \cup L,u) = n V(\underbrace{K \cup L, \dots, K \cup L}_{\text{$n-1$ vegades}}, A).\]
+
+Per altra banda, usant la Proposici\'{o} \ref{prop:2}, obtenim integrant la part dreta que:
+
+\begin{equation*}
+ \int_{S^{n-1}} h_A(u) dS_{n-1} (K,u) + \int_{S^{n-1}} h_A(u) dS_{n-1} (L,u) - \int_{S^{n-1}} h_A(u) dS_{n-1} (K \cap L,u) =   
+\end{equation*}
+
+\begin{equation*}
+n V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, A) + nV(\underbrace{L, \dots, L}_{\mathclap{\text{$n-1$ vegades}}}, A) - nV(\underbrace{K \cap L, \dots, K \cap L}_{\text{$n-1$ vegades}}, A). 
+\end{equation*}
+
+Per tant, per a demostrar la proposici\'{o} nom\'{e}s hem de veure que es compleix la seg\"{u}ent igualtat:
+
+\[ V(\underbrace{K \cup L, \dots, K \cup L}_{\text{$n-1$ vegades}}, A) = V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, A) + V(\underbrace{L, \dots, L}_{\mathclap{\text{$n-1$ vegades}}}, A) - V(\underbrace{K \cap L, \dots, K \cap L}_{\text{$n-1$ vegades}}, A). \]
+
+Per\`{o} aquesta igualtat \'{e}s trivial tenint en compte que els volums mixtes s\'{o}n valoracions i, per tant, compleixen la propietat additiva presentada.
+\end{proof}
+
+Tenint en compte aquests resultats, procedim a demostrar la conjectura de McMullen.
+
+\begin{proof}
+Denotem $\nu \subset \Val(V)$ com la clausura del subespai dens en combinacions lineals de volums mixtes. 
+
+Clarament, $\nu$ \'{e}s un subespai $\GL(V)$-invariant. Efectivament, considerem $g \in \GL(V)$, $\phi \in \nu$ i l'acci\'{o} natural $\varphi$ del grup $\GL(V)$ sobre $\Val(V)$ anteriorment definida. Aleshores, per a tot $K \in \mathcal{K}(V)$, $\varphi(g, \phi) (K) = (g \phi) (K) = \phi (g^{-1} (K))$. Per tant, com $\phi \in \nu$ i es pot aproximar per combinacions lineals de volums mixtes, concloem que $\varphi(g, \phi)$ es pot aproximar per combinacions lineals de volums mixtes i, conseg\"{u}entment, $\varphi(g, \phi) \in \nu$.
+
+Considerem, per a cada $i$ entre $0$ i $n$, les interseccions $\nu \cap \Val_i^+(V)$ i $\nu \cap \Val_i^-(V)$. Tal com hem vist anteriorment, els subespais $\Val_i^+(V)$ i $\Val_i^-(V)$ s\'{o}n $\GL(V)$-invariants per a tot $i$ entre $0$ i $n$ i, conseg\"{u}entment, les interseccions $\nu \cap \Val_i^+(V)$ i $\nu \cap \Val_i^-(V)$ s\'{o}n subespais tancats $\GL(V)$-invariants per a tot $i$ entre $0$ i $n$. Pel teorema d'irreductibilitat d'Alesker, obtenim que les interseccions $\nu \cap \Val_i^+(V)$ i $\nu \cap \Val_i^-(V)$ nom\'{e}s poden ser nul\textperiodcentered les o el propi subespai vectorial $\Val_i^+(V)$ o $\Val_i^-(V)$ per a tot $i$ entre $0$ i $n$. Per tant, per a demostrar la conjectura de McMullen \'{e}s suficient amb veure que totes les anteriors interseccions s\'{o}n no nul\textperiodcentered les.
+
+En primer lloc, estudiem les interseccions $\nu \cap \Val_i^+(V)$ per a tot $i$ entre $0$ i $n$ amb $i$ fixat. Considerem el volum intr\'{i}nsec $V_i$. Clarament, $V_i \in \nu$ perqu\`{e}, per definici\'{o}, $V_i$ \'{e}s proporcional a un volum mixte. Per altra banda, tal com hem comentat anteriorment, $V_i \in \Val_i^+(V)$. Per tant, $V_i \in \nu \cap \Val_i^+(V)$, concloent que les interseccions $V_i \in \nu \cap \Val_i^+(V)$ s\'{o}n no nul\textperiodcentered les per a tot $i$ entre $0$ i $n$.
+
+Per altra banda, estudiem les interseccions $\nu \cap \Val_i^-(V)$ per a tot $i$ entre $0$ i $n$ amb $i$ fixat. En primer lloc, fixem una m\`{e}trica euclidiana qualsevol a l'espai vectorial $V$. Addicionalment, considerem un subespai vectorial $F \subset V$ de dimensi\'{o} $i + 1$ i una funci\'{o} continua imparell $f: S^{i} \longrightarrow \mathbb{C}$. Definim l'aplicaci\'{o} $\psi: \mathcal{K}(F) \longrightarrow \mathbb{C}$ que actua, per a tot $K \in \mathcal{K}(F)$, com:
+
+\[ \psi(K) := \int_{S^i} f(x) dS_i(K,x).\]
+
+Clarament, com a conseq\"{u}\`{e}ncia directa de la caracteritzaci\'{o} anteriorment presentada en el Teorema \ref{teo:s} i la Proposici\'{o} \ref{prop:s}, $\psi \in \Val_i(F)$. En particular, \'{e}s f\`{a}cil veure, per construcci\'{o} de $\psi$, que $\psi \in \Val_i^-(F)$. Considerem ara la projecci\'{o} ortogonal $p: V \longrightarrow F$ i la funcio $\phi: \mathcal{K}(V) \longrightarrow \mathbb{C}$ definida, per a tot $K \in \mathcal{K}(V)$, com:
+
+\[ \phi(K) = \psi(p(K)).\]
+
+Clarament, com $\psi \in \Val_i^-(F)$, obtenim que $\phi \in \Val_i^-(V)$.
+
+Per acabar de demostrar la conjectura, nom\'{e}s hem de veure que $\phi \in \nu$. En altres paraules, hem de veure que podem aproximar $\phi$ per una combinaci\'{o} lineal de volums mixtes. Demostrem aquesta afirmaci\'{o} en diversos pasos.
+
+En primer lloc, tenint en compte que el conjunt de combinacions lineals de funcionals de suport associats a conjunts compactes convexos \'{e}s dens en $C(S^{i})$ usant la seva m\`{e}trica natural, podem aproximar la funci\'{o} $f: S^i \longrightarrow \mathbb{C}$ com una combinaci\'{o} lineal de funcionals de suport associats a conjunts compactes convexes. Per tant, per a demostrar la conjectura, \'{e}s suficient veure que $\phi$ es pot aproximar per una combinaci\'{o} lineal de volums mixtes en el cas particular en que $f$ \'{e}s un funcional de suport, \'{e}s a dir, $f=h_L$ amb $L \in \mathcal{K}(F)$. En aquest cas, usant la Proposici\'{o} \ref{prop:2}, obtenim que:
+
+\begin{equation} \label{eq:162}
+    \phi(K) = \psi(p(K)) = (i+1) \cdot V(\underbrace{p(K), \dots, p(K)}_{\text{$i$ vegades}}, L).
+\end{equation}
+
+Per altra banda, provem que, per a tot $K \in \mathcal{K}(V)$ i $I \subset V$, es compleix que:
+
+\begin{equation} \label{eq:163}
+    V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, I) = \frac{1}{n} \vol_1 (I) \cdot \vol_{n-1} (q(K)),
+\end{equation}
+
+on $q: V \longrightarrow I^{\perp}$ el la projecci\'{o} ortogonal de l'espai vectorial $V$ en l'hiperpl\`{a} $I^{\perp}$. En primer lloc, assumim sense p\`{e}rdua de generalitat que $K$ \'{e}s un pol\'{i}top i que el $0$ \'{e}s un extrem del segment $I$.
+
+Addicionalment, considerem les $n-1$ cares $\{ F_1, \dots, F_{n-1}\}$ del pol\'{i}top $K$ i ens quedem amb el conjunt de cares $\{F_j\}_{j \in J}$ que compleixen que, per a qualsevol punt $x \in F_j$ interior i $\lambda > 0$, $(x + \lambda I) \cap K = \{x\}$. Geom\`{e}tricament, aquesta condici\'{o} equival a que les cares $F_j$ no estan atravessades interiorment per cap extensi\'{o} infinita del segment $I$.
+
+Per comen\c{c}ar, partim d'una definici\'{o} equivalent del volum mixte $V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, I)$:
+
+\[ V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, I) = \frac{1}{n} \frac{d}{d\lambda} \big|_{\lambda=0} \vol_n(K + \lambda I).\]
+
+Usant l'anterior definici\'{o} del conjunt de cares $\{ F_j \}_{j \in J}$, \'{e}s molt f\`{a}cil veure per arguments geom\`{e}trics que:
+
+\[\vol_n (K + \lambda I) = \sum_{j \in J} \vol_{n} (F_j + \lambda I)  = \sum_{j \in J} \lambda \vol_{n-1}(q(F_j)) \cdot \vol_1(I)\]
+\[= \lambda \left( \sum_{j \in J} \vol_{n-1}(q(F_j)) \right) \cdot \vol_1(I) =  \lambda \vol_{n-1}(q(K)) \cdot \vol_1(I).\]
+
+Per tant, aplicant aquesta \'{u}ltima igualtat a la definici\'{o} equivalent de volum mixte obtenim, tal com vol\'{i}em:
+
+\[ V(\underbrace{K, \dots, K}_{\mathclap{\text{$n-1$ vegades}}}, I) = \frac{1}{n} \left. \frac{d}{d\lambda} \right|_{\lambda=0} ( \lambda \vol_{n-1}(q(K)) \cdot \vol_1(I) ) = \frac{1}{n} \vol_1 (I) \cdot \vol_{n-1} (q(K)).\]
+
+Per extrapolaci\'{o} de l'Equaci\'{o} \eqref{eq:163}, obtenim que:
+
+\begin{equation} \label{eq:168}
+    V(K_1, \dots, K_{n-1}, I) = \frac{1}{n} \vol_1(I) \cdot V(q(K_1), \dots, q(K_{n-1})).
+\end{equation}
+
+Finalment, considerem un conjunt de segments unitaris ortogonals dos a dos $I_1, \dots, I_{n-i-1} \in F^{\perp}$. Notem que aquest conjunt de segments sempre existeix perqu\`{e} $F^{\perp}$ t\'{e} dimensi\'{o} $n-i-1$. Usant repetidament l'Equaci\'{o} \eqref{eq:168}, obtenim que:
+
+\[ V(\underbrace{K, \dots, K}_{\text{$i$ vegades}}, L, I_1, \dots, I_{n-i-1}) = \frac{(i+1)!}{n!} V(\underbrace{p(K), \dots, p(K)}_{\text{$i$ vegades}}, L).\]
+
+Usant conjuntament l'igualtat acabada de trobar i l'Equaci\'{o} \eqref{eq:162}, obtenim que:
+
+\[\phi(K) = \frac{n!}{i!} V(\underbrace{K, \dots, K}_{\text{$i$ vegades}}, L, I_1, \dots, I_{n-i-1}). \]
+
+Per tant, concloem que $\phi$ \'{e}s proporcional a un volum mixte i, per tant, $\phi \in \nu$. Conseg\"{u}entment, $\phi \in \nu \cap \Val_i^-(V)$, concloent que les interseccions $\phi \in \nu \cap \Val_i^-(V)$ s\'{o}n no nul\textperiodcentered les per a tot $i$ entre $0$ i $n$, provant la conjectura de McMullen.
+
+\end{proof}
+
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{Bibliografia.bib}
+
+\end{document}
