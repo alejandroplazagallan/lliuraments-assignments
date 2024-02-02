@@ -1,0 +1,155 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[left=2cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{corollari}{Corol\textperiodcentered lari}
+\newtheorem{lema}{Lema}
+\newtheorem{definicio}{Definici\'{o}}
+\newtheorem{notacio}{Notaci\'{o}}
+\newtheorem{proposicio}{Proposici\'{o}}
+\newtheorem{observacio}{Observaci\'{o}}
+\theoremstyle{definition}
+\newtheorem{exemple}{Exemple}
+
+\DeclareMathOperator{\id}{id}
+
+\title{Espais de moduli}
+\author{Alejandro Plaza Gall\'{a}n}
+\date{8 de juny de 2021}
+
+\begin{document}
+
+\maketitle
+
+S\'{o}c l'Alejandro i far\'{e} una presentaci\'{o} sobre els espais de moduli.
+
+En diverses \`{a}rees de les matem\`{a}tiques es treballa amb diferents estructures que es poden classificar segons la relaci\'{o} d'isomorfia, ja que la isomorfia \'{e}s una relaci\'{o} d'equival\`{e}ncia. Podem identificar les estructures isomorfes.
+
+L'exemple m\'{e}s b\`{a}sic \'{e}s el dels conjunts, els isomorfismes s\'{o}n les aplicacions bijectives. En l'\`{a}lgebra lineal, per exemple, les estructures s\'{o}n els espais vectorials, tenim els isomorfismes d'espais vectorials.
+
+De vegades podem assignar a cada classe d'isomorfia un invariant o par\`{a}metre que serveix per identificar els elements de cada classe. D'aquesta manera, dues estructures s\'{o}n equivalents si i nom\'{e}s si tenen el mateix invariant.
+
+En el cas dels conjunts, aquest invariant \'{e}s el cardinal: dos conjunts s\'{o}n isomorfs o equipotents si i nom\'{e}s si tenen el mateix cardinal. En el cas dels espais vectorials de dimensi\'{o} finita, l'invariant \'{e}s la dimensi\'{o}: dos espais vectorials de dimensi\'{o} finita s\'{o}n isomorfs si i nom\'{e}s si tenen la mateixa dimensi\'{o}.
+
+Aquesta \'{e}s la idea darrere dels espais de moduli: prendre classes d'equival\`{e}ncia de certes estructures algebraico-geom\`{e}triques i parametritzar les classes d'equival\`{e}ncia. Es pot donar una estructura a l'espai quocient que sorgeixi naturalment de l'estructura dels elements de les classes i es pot fer que la parametritzaci\'{o} sigui d'alguna manera compatible amb aquesta estructura. Vegem un exemple m\'{e}s concret d'aix\`{o}.
+
+Podem partir de $\mathbb{R}^2\backslash\{0\}$ i definir la relaci\'{o} d'equival\`{e}ncia tal que per tots $x,y\in\mathbb{R}^2\backslash\{0\}$
+\[x\sim y\Leftrightarrow\exists\lambda\in\mathbb{R}:y=\lambda x.\]
+
+El quocient \'{e}s llavors el conjunt de rectes que passen per l'origen.
+
+\[S=\{L\backslash\{0\}\,|\,L\text{ \'{e}s subespai vectorial de }\mathbb{R}^2,\dim L=1\}\]
+
+Volem donar una noci\'{o} de dist\`{a}ncia. Com que \'{e}s un quocient i $\mathbb{R}^2\backslash\{0\}$ \'{e}s un espai topol\`{o}gic, podr\'{i}em prendre simplement la topologia quocient. De fet aquest espai \'{e}s l'espai projectiu de dimensi\'{o} 1. No obstant aix\`{o} hi ha altre formes de definir-hi una dist\`{a}ncia.
+
+Podem definir una dist\`{a}ncia
+\begin{align*}
+d:S\times S&\longrightarrow[0,\infty),\\
+([x],[y])&\longmapsto\cos\frac{|\langle x,y\rangle|}{||x||||y||}
+\end{align*}
+que \'{e}s l'angle que formen dues rectes.
+
+De fet l'espai projectiu es pot identificar amb $\mathbb{S}^1$.
+
+Podem veure un altre exemple. Considerem el pla complex $\mathbb{C}$. Considerem el reticle $\mathbb{Z}+i\mathbb{Z}\subseteq\mathbb{C}$ dins del pla. \'{E}s com $\mathbb{Z}\times\mathbb{Z}$ dins $\mathbb{R}^2$.
+
+$\mathbb{Z}+i\mathbb{Z}\cong\mathbb{Z}^2$ \'{e}s un grup, que actua per l'addici\'{o} sobre $\mathbb{C}$.
+
+\begin{align*}
+(\mathbb{Z}+i\mathbb{Z})\times\mathbb{C}&\longrightarrow\mathbb{C}\\
+(n+im,z)&\longmapsto(n+im)+z
+\end{align*}
+
+Podem considerar el quocient de $\mathbb{C}$ pel grup $\mathbb{Z}+i\mathbb{Z}$: $\mathbb{C}/(\mathbb{Z}+i\mathbb{Z})$. Tota classe d'aquest espai quocient t\'{e} un representant dins el quadrat $[0,1]+i[0,1]$. Cada punt interior d'aquest quadrat es correspon un\'{i}vocament amb element de $\mathbb{C}/(\mathbb{Z}+i\mathbb{Z})$, per\`{o} els punts dels costats estan duplicats, ja que estan identificats dos a dos, com es veu en aquest dibuix.
+
+Veiem doncs que hem obtingut un tor. Aquest t\'{e} estructura de varietat topol\`{o}gica: \'{e}s una superf\'{i}cie. Per\`{o} tamb\'{e} t\'{e} estructura de varietat complexa. Definim primer qu\`{e} vol dir varietat complexa.
+
+\begin{definicio}
+Una \textbf{varietat topol\`{o}gica} de dimensi\'{o} $n$ \'{e}s un espai topol\`{o}gic $M$ Hausdorff, segon numerable i localment homeomorf a $\mathbb{R}^n$. Aix\`{o} \'{u}ltim vol dir que per tot $x\in M$ existeixen un entorn obert $U\subseteq M$ de $x$ i un homeomorfisme $\phi:U\rightarrow\mathbb{R}^n$. El parell $(U,\phi)$ es diu \textbf{carta local} de $M$. La inversa d'una carta local es diu \textbf{parametritzaci\'{o}}.
+\end{definicio}
+
+\begin{definicio}
+Una \textbf{varietat diferenciable} de dimensi\'{o} $n$ \'{e}s una varietat topol\`{o}gica amb una fam\'{i}lia de cartes locals $\{(U_i,\phi_i)\}_{i\in I}$ anomenada \textbf{atles} que compleix:
+\begin{enumerate}
+\item \[\bigcup_{i\in I}U_i=M.\]
+\item Per tots $i,j\in I$, el \textbf{canvi de carta} $\phi_j\circ\phi_i^{-1}:\phi_i(U_i\cap U_j)\rightarrow\phi_j(U_i\cap U_j)$ \'{e}s llis. Observem que $\phi_i(U_i\cap U_j),\phi_j(U_i\cap U_j)\subseteq\mathbb{R}^n$.
+\end{enumerate}
+\end{definicio}
+
+\begin{definicio}
+Una \textbf{varietat complexa} de dimensi\'{o} $n$ \'{e}s un espai topol\`{o}gic Hausdorff segon numerable amb un atles $\{(U_i,\phi_i)\}_{i\in I}$ format per cartes locals $\phi_i:U_i\rightarrow\mathbb{C}^n$ que compleixen:
+\begin{enumerate}
+\item \[\bigcup_{i\in I}U_i=M.\]
+\item Per tots $i,j\in I$, el canvi de carta $\phi_j\circ\phi_i^{-1}:\phi_i(U_i\cap U_j)\rightarrow\phi_j(U_i\cap U_j)$ \'{e}s holomorf. Observem que $\phi_i(U_i\cap U_j),\phi_j(U_i\cap U_j)\subseteq\mathbb{C}^n$.
+\end{enumerate}
+\end{definicio}
+
+\begin{definicio}
+Un morfisme entre varietats diferenciables o complexes \'{e}s una aplicaci\'{o} $f:M\rightarrow N$ tal que per tota carta local $(U,\phi)$ de $M$ i tota carta local $(V,\psi)$ de $N$, es compleix que $\psi\circ f\circ\phi^{-1}$ \'{e}s cont\'{i}nua, diferenciable o holomorfa respectivament.
+\end{definicio}
+
+\begin{definicio}
+Dues varietats topol\`{o}giques, diferenciables o complexes s\'{o}n equivalents quan existeix una aplicaci\'{o} $f:M\rightarrow N$ bijectiva amb inversa $f^{-1}:N\rightarrow M$ tal que $f$ i $f^{-1}$ s\'{o}n diferenciables o holomorfes. respectivament.
+\end{definicio}
+
+\begin{definicio}
+Una superf\'{i}cie de Riemann \'{e}s una varietat complexa de dimensi\'{o} $1$.
+\end{definicio}
+
+Els tors que hem definit abans s\'{o}n varietats complexes. Per cada punt, agafem un entorn com es mostra als dibuixos, i agafem com a parametritzaci\'{o} la projecci\'{o} de $\mathbb{C}$ sobre el quocient.
+
+Vegem ara quins d'aquests tors s\'{o}n equivalents i quins no ho s\'{o}n. Comencem comentant que tota superf\'{i}cie de Riemann es pot veure com una superf\'{i}cie diferenciable, per\`{o} t\'{e} una estructura m\'{e}s r\'{i}gida, ja que tota aplicaci\'{o} holomorfa \'{e}s diferenciable, per\`{o} no tota aplicaci\'{o} diferenciable \'{e}s holomorfa.
+
+Un reticle $\Gamma$ \'{e}s un grup de la forma $a\mathbb{Z}+b\mathbb{Z}$, on $a,b\in\mathbb{C}$ s\'{o}n tals que com a vectors de $\mathbb{R}^2$ s\'{o}n ortogonals. Volem veure quan, donats dos reticles $\Gamma_1,\Gamma_2$, hi ha un difeomorfisme o una aplicaci\'{o} biholomorfa (aplicaci\'{o} holomorfa bijectiva amb inversa holomorfa) de $\mathbb{C}$ a $\mathbb{C}$ que porti $\Gamma_1=a_1\mathbb{Z}+b_1\mathbb{Z}$ a $\Gamma_2=a_2\mathbb{Z}+b_2\mathbb{Z}$.
+
+Aquesta aplicaci\'{o} ha de ser l'aplicaci\'{o} lineal que porti la base ortogonal $(a_1,b_1)$ a la base ortogonal $(a_2,b_2)$. Per tant sempre ser\`{a} un difeomorfisme de classe $C^{\infty}$. No obstant aix\`{o}, no sempre ser\`{a} holomorfa. Nom\'{e}s ser\`{a} holomorfa quan la funci\'{o} sigui una dilataci\'{o}, una rotaci\'{o} o una reflexi\'{o}. De fet, existir\`{a} una funci\'{o} biholomorfa tal si i nom\'{e}s si
+\[\frac{|b_1|}{|a_1|}=\frac{|b_2|}{|a_2|}.\]
+
+Per tant com a superf\'{i}cies diferenciables, no podem distingir aquests tors. Per\`{o} com a superf\'{i}cies de Riemann s\'{i} les podem distingir. A m\'{e}s podem assignar a cada tor el nombre $\frac{|b|}{|a|}$, de manera que dos tors seran equivalents si i nom\'{e}s si tenen el mateix nombre. Amb aix\`{o} podem parametritzar els tors.
+
+Sempre que tenim una funci\'{o} biholomorfa de $\mathbb{C}$ a $\mathbb{C}$ que porti un reticle a l'altre, defineix una equival\`{e}ncia entre els espais quocients  com a superf\'{i}cies de Riemann, que s\'{o}n els tors. Per tant dos tors seran equivalents quan tinguin el mateix quocient aquest.
+
+Per una banda considerem el conjunt de subconjunts de $\mathbb{C}^n$ que s\'{o}n zeros de polinomis. Per l'altra banda considerem el conjunts d'ideals de polinomis amb $n$ variables complexes.
+
+A cada ideal $J\subseteq\mathbb{C}[z_1,\ldots,z_n]$ li podem fer correspondre el conjunt on s'anul\textperiodcentered len tots els seus polinomis
+\[V(J)=\{(z_1,\ldots,z_n)\in\mathbb{C}^n\,|\,\forall f\in J\,\,f(z_1,\ldots,z_n)=0\}.\]
+
+Tamb\'{e}, per cada $V\subseteq\mathbb{C}^n$ li podem fer correspondre l'ideal de polinomis que s'anul\textperiodcentered len sobre tots els punts de $V$
+\[I(V)=\{f\in\mathbb{C}[z_1,\ldots,z_n]\,|\,\forall v\in V\,\,f(v)=0\}.\]
+
+Hi ha un teorema anomenat \emph{Nullstellensatz} que diu que donat un ideal $J$ de polinomis, si li apliquem aquests dos processos, obtenim
+\[I(V(J))=\sqrt{J}=\{f\in\mathbb{C}[z_1,\ldots,z_n]\,|\,\exists n\in\mathbb{N}:f^n\in J\}.\]
+$\sqrt{J}$ es diu radical de $J$.
+
+Tamb\'{e} podem agafar un subconjunt algebraic $V\subseteq\mathbb{C}^n$ i, si $I$ \'{e}s el seu ideal de polinomis associat, construir l'anell quocient de funcions regulars $\mathbb{C}[z_1,\ldots,z_n]/I$. \'{E}s l'anell de les funcions que no es fan zero en $V$. Llavors hi ha una aplicaci\'{o} anomenada espectre que permet recuperar el subconjunt algebraic a partir de l'anell de funcions $\mathbb{C}[z_1,\ldots,z_n]/I$. D'aquesta manera, els punts del subconjunt algebraic es corresponen amb ideals maximals de l'anell de funcions.
+
+Aix\`{o} es fa servir per sanar possibles patologies que poden tenir els espais quocients. Fem-ne un exemple.
+
+Considerem l'acci\'{o} de $\mathbb{C}^*=\mathbb{C}\backslash\{0\}$ sobre $\mathbb{C}^2$ definida per
+\begin{align*}
+\mathbb{C}^*\times\mathbb{C}^2&\longrightarrow\mathbb{C}^2.\\
+(t,(x,y))&\longmapsto(tx,t^{-1}y)
+\end{align*}
+
+Calculem el quocient de $\mathbb{C}^2$ per aquesta acci\'{o}: $\mathbb{C}^2/\sim$. Estudiem les \`{o}rbites.
+
+\[[(x,y)]=\{(tx,t^{-1}y)\in\mathbb{C}^2\,|\,t\in\mathbb{C}^*\}=\{(x',y')\in\mathbb{C}^2\,|\,x'y'=xy\}\]
+
+Per tant les \`{o}rbites s\'{o}n hip\`{e}rboles. L'\`{o}rbita de $(x,y)$, pot ser:
+\begin{enumerate}
+\item Si $x,y\neq0$, $[(x,y)]$ \'{e}s la hip\`{e}rbola $x'y'=xy$.
+\item Si $x=0$, $y\neq0$, $[(0,y)]$ \'{e}s la recta complexa vertical $\{(0,y)\in\mathbb{C}^2\,|\,y\in\mathbb{C}^*\}$ sense l'origen.
+\item Si $x\neq0$, $y=0$, $[(x,0)]$ \'{e}s la recta complexa horitzontal $\{(x,0)\in\mathbb{C}^2\,|\,x\in\mathbb{C}^*\}$ sense l'origen.
+\item Si $x,y=0$, $[(0,0)]$ \'{e}s l'origen $\{(0,0)\}$.
+\end{enumerate}
+
+Per entendre com \'{e}s aquest espai, podem visualitzar-lo en el seg\"{u}ent dibuix. Observem que cada hip\`{e}rbola talla nom\'{e}s un cop la recta complexa blava. Per tant podem identificar $\mathbb{C}^2/\sim$ sense els eixos amb una recta complexa $\mathbb{C}$. Per tant, amb els eixos, $\mathbb{C}^2/\sim$ \'{e}s $\mathbb{C}$ amb tres or\'{i}gens. Aquest espai topol\`{o}gic no \'{e}s Hausdorff, el qual pot portar problemes.
+
+Per aix\`{o} fem el m\`{e}tode donat per la teoria geom\`{e}trica d'invariants i que hem exposat abans. Primer passem del conjunt algebraic $\mathbb{C}^2$ a l'anell de polinomis $\mathbb{C}[x,y]$. Sobre l'anell de polinomis, estudiem els ideals invariants per l'acci\'{o} de $\mathbb{C}^*$. $\mathbb{C}[x,y]^{\mathbb{C}^*}=\mathbb{C}[xy]$. Quan tornem aquest ideal $\mathbb{C}[xy]$ a un subconjunt algebraic per l'aplicaci\'{o} espectre, obtenim $\mathbb{C}$. Hem obtingut un espai amb propietats molt m\'{e}s bones que el que hav\'{i}em obtingut fent directament el quocient, que era $\mathbb{C}$ amb tres or\'{i}gens. Aquest cas, com que era molt senzill, podr\'{i}em haver tret dos or\'{i}gens, quedant-nos simplement amb $\mathbb{C}$ sense haver de fet tot el proc\'{e}s de la teoria geom\`{e}trica d'invariants, per\`{o} hi ha casos m\'{e}s complicats on no es veu clarament com regularitzar els quocients.
+\end{document}

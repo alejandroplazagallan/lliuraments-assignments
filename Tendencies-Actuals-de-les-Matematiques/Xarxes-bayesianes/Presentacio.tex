@@ -1,0 +1,182 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{corollari}{Corol\textperiodcentered lari}
+\newtheorem{lema}{Lema}
+\newtheorem{definicio}{Definici\'{o}}
+\newtheorem{notacio}{Notaci\'{o}}
+\newtheorem{proposicio}{Proposici\'{o}}
+\newtheorem{observacio}{Observaci\'{o}}
+\theoremstyle{definition}
+\newtheorem{exemple}{Exemple}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\mode<presentation>
+{
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+}
+
+\title[Xarxes bayesianes]{Les xarxes Bayesianes: models probabil\'{i}stics per a la predicci\'{o} de riscos}
+\author{Alejandro Plaza Gall\'{a}n}
+\date{8 de juny de 2021}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Introducci\'{o}}
+\begin{definicio}
+Un \textbf{graf dirigit} \'{e}s un parell $(V,E)$ on $V$ \'{e}s un conjunt finit, els elements del qual s'anomenen \textbf{nodes}, i $E$ \'{e}s un conjunt de parells ordenats de nodes anomenats \textbf{arcs} o \textbf{fletxes}.
+\end{definicio}
+\pause
+
+\begin{definicio}
+Donat un graf dirigit $(V,E)$ i dos nodes $X,Y\in$, definim un \textbf{cam\'{i}} de $X$ a $Y$ com un conjunt de fletxes que els connecta. Quan $X=Y$, diem que el cam\'{i} \'{e}s un \textbf{cicle}.
+\end{definicio}
+\pause
+
+\begin{definicio}
+Un graf dirigit $(V,E)$ s'anomena \textbf{graf dirigit ac\'{i}clic (DAG)} quan no t\'{e} cicles.
+\end{definicio}
+\end{frame}
+
+\begin{frame}{Introducci\'{o}}
+\begin{definicio}
+Sigui $(V,E)$ un DAG.
+\begin{enumerate}
+\item Donats dos nodes $X,Y\in V$, diem que $X$ \'{e}s pare de $Y$ i que $Y$ \'{e}s fill de $X$ quan hi ha una fletxa de $X$ a $Y$.
+\pause
+\item Donats dos nodes $X,Y\in V$, diem que $X$ \'{e}s avantpassat de $Y$ i que $Y$ \'{e}s descendent de $X$ quan hi ha una cam\'{i} de $X$ a $Y$.
+\pause
+\item Un node $X\in V$ s'anomena arrel quan no t\'{e} pares.
+\pause
+\item Un node $X\in V$ s'anomena fulla quan no t\'{e} fills.
+\pause
+\item Un node $X\in V$ s'anomena node intermedi quan no \'{e}s arrel ni fulla.
+\end{enumerate}
+\end{definicio}
+\end{frame}
+
+\begin{frame}{Introducci\'{o}}
+\begin{definicio}
+Sigui $(\Omega,\mathcal{F},P)$ un espai de probabilitat. Siguin $\boldsymbol{A},\boldsymbol{B},\boldsymbol{C}$ conjunts de variables aleat\`{o}ries discretes $\Omega\rightarrow\mathbb{R}$. Diem que $\boldsymbol{A}$ i $\boldsymbol{B}$ s\'{o}n \textbf{condicionalment independents} donat el conjunt $\boldsymbol{C}$ quan per tots $A\in\boldsymbol{A},B\in\boldsymbol{B},C\in\boldsymbol{C}$ i per tots $a,b,c\in\mathbb{R}$ amb $P(C=c)\neq0$, els esdeveniments $\{A=a\}$ i $\{B=b\}$ s\'{o}n independents donat l'esdeveniment $\{C=c\}$. \pause Aix\`{o} vol dir que
+\[P(A=a,B=b|C=c)=P(A=a|C=c)P(B=b|C=c).\]
+Es denota com $I_P(A,B|C)$.
+\end{definicio}
+\end{frame}
+
+\begin{frame}{Introducci\'{o}}
+\begin{definicio}
+Sigui $V$ un conjunt de variables aleat\`{o}ries que tenen una distribuci\'{o} de probabilitat conjunta $P$. Sigui $\Gamma=(V,E)$ un DAG. Per cada $X\in V$ posem $ND(X)=\{Y\in V\,|\,Y\text{ no \'{e}s descendent de }X\}$ i $PA(X)=\{Y\in V\,|\,Y\text{ \'{e}s pare de }X\}$. \pause Diem que $(\Gamma,P)$ satisf\`{a} la \textbf{condici\'{o} de Markov} quan per tota $X\in V$, $\{X\}$ \'{e}s condicionalment independent de $ND(X)\backslash PA(X)$ donat $PA(X)$. S'escriu
+\[I_P(\{X\},ND(X)\backslash PA(X)|PA(X)).\]
+\end{definicio}
+\end{frame}
+
+\begin{frame}{Introducci\'{o}}
+\begin{teorema}
+Si $(\Gamma,P)$ satisf\`{a} la condici\'{o} de Markov, aleshores $P$ \'{e}s igual al producte de les probabilitats condicionades de cada node donats els seus pares, quan aquests existeixin. \'{E}s a dir, si $V=\{X_1,\ldots,X_n\}$, llavors per a tots els valors $x_i$ de $X_i$ tenim
+\[P(X_1=x_1,\ldots,X_n=x_n)=\prod_{i=1}^nP(X_i=x_i|PA(X_i)).\]
+\end{teorema}
+\pause
+Aquesta f\'{o}rmula se'n diu \textbf{regla de la cadena}.
+\pause
+\begin{teorema}
+Sigui $(V,E)$ un DAG on $V$ s\'{o}n v.a. discretes. Si coneixem les distribucions de probabilitat condicionada de cada node donat els seus pares, i definim una distribuci\'{o} de probabilitat conjunta $P$ de les variables de $V$ segons la Regla de la Cadena, llavors $(\Gamma,P)$ satisf\`{a} la condici\'{o} de Markov.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Infer\`{e}ncia}
+\begin{definicio}
+Sigui $V$ un conjunt de variables aleat\`{o}ries que tenen una distribuci\'{o} de probabilitat conjunta $P$. Sigui $\Gamma=(V,E)$ un DAG. Es diu que $(\Gamma,P)$ \'{e}s una \textbf{xarxa bayesiana} quan satisf\`{a} la condici\'{o} de Markov.
+\end{definicio}
+\pause
+Volem calcular la probabilitat d'unes \textbf{variables de consulta} condicionada a unes \textbf{variables d'evid\`{e}ncia}.
+\pause
+
+Fer infer\`{e}ncia de manera exacta \'{e}s aplicar la regla de la cadena, per\`{o} implica molts c\`{a}lculs. Per aix\`{o} es fan servir algorismes d'infer\`{e}ncia aproximada.
+\pause
+
+Un algorisme d'infer\`{e}ncia aproximada \'{e}s l'anomenat \textbf{simulaci\'{o} estoc\`{a}stica}, que consisteix a generar un gran nombre de casos a partir de la distribuci\'{o} de probabilitat conjunta de les variables de la xarxa bayesiana. Aquests casos despr\'{e}s es fan servir per estimar les probabilitats a posteriori de les variables de consulta donades les variables d'evid\`{e}ncia.
+\end{frame}
+
+\begin{frame}{Infer\`{e}ncia}
+\begin{itemize}
+\item L'algorisme de simulaci\'{o} estoc\`{a}stica m\'{e}s senzill \'{e}s l'anomenat \textbf{\emph{Logic sampling}}. Quan aquest algorisme genera un cas, tria un valor per cada variable de manera aleat\`{o}ria segons la seva probabilitat associada.
+\pause
+\item Comen\c{c}a per les fulles, donant-los un valor aleatori segons la seva probabilitat marginal a priori. Despr\'{e}s passa als seus fills i d\'{o}na a cada fill un valor aleatori segons la seva probabilitat condicionada pel valor pr\`{e}viament triat dels pares. Aquest proc\'{e}s es va iterant fins que ha assignat un valor a tots els nodes.
+\pause
+\item Aix\`{o} constitueix un cas. L'algorisme en genera molts i per estimar $P(X=x|E=e)$ es calcula el quocient entre el nombre de casos generats pels quals es verifica que $X=x$ i $E=e$ i el nombre de casos pels quals $E=e$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Aprenentatge de par\`{a}metres}
+Partim d'un DAG amb variables aleat\`{o}ries $V=\{X_1,\ldots,X_n\}$. Disposem d'un conjunt de casos $D=\{\boldsymbol{x}_1,\ldots,\boldsymbol{x}_n\}$, on un cas $\boldsymbol{x}=(x_1,\ldots,x_n)$ \'{e}s una realitzaci\'{o} del vector aleatori $(X_1,\ldots,X_n)$. Tenim un vector de par\`{a}metres $\theta$ corresponent a les distribucions de probabilitat condicionades dels nodes. Aquest determina la distribuci\'{o} de probabilitat conjunta.
+\pause
+
+La funci\'{o} versemblan\c{c}a \'{e}s
+\[L(\theta)=P(D|\theta)=\prod_{i=1}^nP(\boldsymbol{x}_i|\theta).\]
+De ella qual podem treure l'estimador de m\`{a}xima versemblan\c{c}a
+\[\theta_{\text{MLE}}=\argmax_{\theta}\ln L(\theta).\]
+\end{frame}
+
+\begin{frame}{Aprenentatge de par\`{a}metres}
+\begin{teorema}
+Si el conjunt de dades $D$ est\`{a} format nom\'{e}s per casos complets (que no hi ha cap observaci\'{o} faltant), llavors l'estimador de m\`{a}xima versemblan\c{c}a per la probabilitat $P(X=x|PA(X)=u)$ \'{e}s
+\[\theta_{\text{MLE}}^{x|u}=\frac{\#D(x,u)}{\#D(u)},\]
+on $\#D(x,u)$ \'{e}s el nombre de casos amb $X=x$ i $PA(X)=u$ i $\#D(u)$ \'{e}s el nombre de casos amb $PA(X)=u$.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Aprenentatge d'estructura}
+Els m\`{e}todes \emph{score-based} consisteixen en assignar una puntuaci\'{o} anomenada \textbf{\emph{score}} a cada possible DAG en funci\'{o} de com s'adapta la xarxa bayesiana a les dades. L'\emph{score} m\'{e}s t\'{i}pic \'{e}s el \textbf{criteri d'informaci\'{o} bayesiana} o BIC.
+\pause
+
+Denotem per $\theta^{\Gamma}$ el vector de
+par\`{a}metres associat a un DAG $\Gamma$, i per $\theta^{\Gamma}$ el seu estimador de m\`{a}xima versemblan\c{c}a, on la funci\'{o} versemblan\c{c}a \'{e}s
+\[L^D(\theta^{\Gamma})=\prod_{i=1}^MP_{\theta^{\Gamma}}(X_1=x_1^i,\ldots,X_n=x_n^i),\]
+on $\boldsymbol{x}_i=(x_i^1,\ldots,x_i^n)$ \'{e}s un cas de $D=\{\boldsymbol{x}_1,\ldots,\boldsymbol{x}_M\}$.
+\pause
+\begin{teorema}
+Si obtenim un DAG $\Gamma^*$ afegint arcs a un DAG $\Gamma$, aleshores
+\[L^D(\theta^{\Gamma^*}_{\text{MLE}})\geq L^D(\theta^{\Gamma}_{\text{MLE}}).\]
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Aprenentatge d'estructura}
+El BIC es defineix com:
+\[BIC(\Gamma,D)=\ln(L^D(\theta^{\Gamma}_{\text{MLE}})-\frac{d}{2}\ln M,\]
+on $M$ \'{e}s el nombre de casos de $D$ i $d$ \'{e}s la dimensi\'{o} de $\Gamma$, \'{e}s a dir, el nombre de par\`{a}metres no redundants en la xarxa.
+\pause
+
+Un algorisme per triar DAGs a comparar d'entre tots els possibles DAGs \'{e}s l'algorisme \textbf{\emph{Greedy Search-And-Score}}.
+\begin{itemize}
+\item Comen\c{c}a amb un DAG sense arcs i calcula el seu BIC.
+\pause
+\item Despr\'{e}s, a cada iteraci\'{o}, calcula el BIC de tots els DAGs obtinguts afegint-hi un arc, traient-hi un arc o canviant l'orientaci\'{o} d'un arc. Tot amb la condici\'{o} que el nou graf no tingui cicles. Llavors pren la xarxa que d\'{o}na un BIC m\'{e}s gran i itera el proc\'{e}s.
+\pause
+\item L'algorisme s'atura quan en una iteraci\'{o} l'\emph{score} BIC no s'incrementa en cap de les noves xarxes.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Aprenentatge d'estructura}
+\begin{itemize}
+\item L'avantatge d'aquest algorisme \'{e}s que el BIC d'una xarxa es pot calcular com la suma d'\emph{scores} de cada node, de manera que si es modifica un arc, nom\'{e}s s'ha de recalcular l'\emph{score} dels dos nodes implicats, estalviant aix\'{i} moltes operacions.
+\pause
+\item Els algorismes d'aquest tipus s'anomenen \textbf{\emph{local scoring updating}}.
+\pause
+\item Un problema amb aquest algorisme \'{e}s que arriba a una soluci\'{o} que maximitza localment la funci\'{o} objectiu, per\`{o} que no la maximitza globalment.
+\pause
+\item Hi ha altres algorismes que solucionen aquest problema com l'\textbf{\emph{iterated hill-climbing}}, que fa servir l'algorisme \emph{Greedy Search-And-Score} per trobar un m\`{a}xim local. Despr\'{e}s el pertorba i repeteix el proc\'{e}s per finalment quedar-se amb el m\`{a}xim dels m\`{a}xims locals.
+\end{itemize}
+\end{frame}
+\end{document}

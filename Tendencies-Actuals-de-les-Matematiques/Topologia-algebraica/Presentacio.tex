@@ -1,0 +1,220 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{teoremaBrouwer}{Teorema del punt fix de Brouwer}
+\newtheorem{corollari}{Corol\textperiodcentered lari}
+\newtheorem{definicio}{Definici\'{o}}
+\newtheorem{notacio}{Notaci\'{o}}
+\newtheorem{proposicio}{Proposici\'{o}}
+\newtheorem{observacio}{Observaci\'{o}}
+\theoremstyle{definition}
+\newtheorem{exemple}{Exemple}
+
+\mode<presentation>
+{
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+}
+
+\DeclareMathOperator{\id}{id}
+
+\title[Topologia algebraica]{Un tast de topologia alebraica: simetria i deformaci\'{o}}
+\author{Alejandro Plaza Gall\'{a}n}
+\date{8 de juny de 2021}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Homotopia}
+\begin{definicio}
+Dos espais topol\`{o}gics $X$ i $Y$ s\'{o}n \textbf{homeomorfs} quan existeix una aplicaci\'{o} $f:X\rightarrow Y$ cont\'{i}nua, bijectiva i amb inversa cont\'{i}nua.
+\end{definicio}
+\pause
+
+Hi ha una noci\'{o} m\'{e}s feble de classificar els espais topol\`{o}gics: l'homotopia.
+\pause
+
+\begin{definicio}
+Donades $f,g:X\rightarrow Y$ cont\'{i}nues entre espais topol\`{o}gics, diem que s\'{o}n \textbf{hom\`{o}topes} i escriurem $f\simeq g$ quan existeix una $H:[0,1]\times X\rightarrow Y$ cont\'{i}nua tal que $H(0,x)=f(x)$ i $H(1,x)=g(x)$ per tot $x\in X$. $H$ es diu homotopia entre $f$ i $g$.
+\end{definicio}
+\pause
+
+L'homotopia $H$ es pot interpretar com una transformaci\'{o} cont\'{i}nua de la funci\'{o} $f$ en la funci\'{o} $g$ al llarg del temps. Si posem $H(t,x)=H_t(x)$, aleshores estem considerant $H$ com una fam\'{i}lia de funcions cont\'{i}nues $H_t:X\rightarrow Y$ indexades en $t$. A temps $t=0$ tenim $H_0=f$ i a temps $t=1$ tenim $H_1=g$.
+\end{frame}
+
+\begin{frame}{Homotopia}
+\begin{proposicio}
+L'homotopia \'{e}s una relaci\'{o} d'equival\`{e}ncia en el conjunt d'aplicacions cont\'{i}nues d'un espai a l'altre.
+\end{proposicio}
+\pause
+
+Per tant podem considerar les classes d'homotopia $[f]$ de les funcions.
+\pause
+
+\begin{definicio}
+Diem que una aplicaci\'{o} cont\'{i}nua $f:X\rightarrow Y$ \'{e}s una \textbf{equival\`{e}ncia homot\`{o}pica} quan existeix una aplicaci\'{o} cont\'{i}nua $g:Y\rightarrow X$ tal que $f\circ g\simeq\id_Y$ i $g\circ f\simeq\id_X$.
+
+Diem que un espai topol\`{o}gic $X$ \'{e}s \textbf{hom\`{o}topament equivalent} a $Y$ quan existeix una equival\`{e}ncia homot\`{o}pica $f:X\rightarrow Y$. Escrivim $X\simeq Y$.
+\end{definicio}
+\pause
+
+En l'homeomorfisme demanem que $f\circ g$ i $g\circ f$ siguin iguals a les identitats, per\`{o} en l'equival\`{e}ncia homot\`{o}pica nom\'{e}s demanem que siguin hom\`{o}topes a les identitats.
+\end{frame}
+
+\begin{frame}{Homotopia}
+L'homotopia no distingeix camins. Si tenim un cam\'{i} $f:[0,1]\rightarrow X$, aleshores l'homotopia
+\begin{align*}
+H:[0,1]\times[0,1]&\longrightarrow X\\
+(t,s)&\longmapsto f(ts)
+\end{align*}
+porta el cam\'{i} constant $f(0)$ al cam\'{i} $f$: $H(0,s)=f(0)$ i $H(1,s)=f(s)$.
+\pause
+
+Per tant tots els camins s\'{o}n hom\`{o}tops al cam\'{i} constant. \'{E}s per aix\`{o} que necessitem una noci\'{o} una mica m\'{e}s forta per homotopia de camins.
+\pause
+
+\begin{definicio}
+Siguin $X,Y$ espais topol\`{o}gics i $A\subseteq X$. Siguin $f,g:X\rightarrow Y$ cont\'{i}nues. Diem que que $f$ i $g$ s\'{o}n \textbf{hom\`{o}topes relativament} a $A$ quan existeix una homotopia $H:[0,1]\times X\rightarrow Y$ que porta $f$ a $g$ i tal que per tots $t\in[0,1]$ i $a\in A$, $f(a)=H(t,a)=g(a)$.
+\end{definicio}
+\end{frame}
+
+\begin{frame}{Homotopia}
+L'homotopia relativa es pot veure com una transformaci\'{o} cont\'{i}nua de $f$ en $g$ mantenint fix el conjunt $A$, el qual queda quiet en tot el proc\'{e}s.
+\pause
+
+\begin{observacio}
+Fixat un $A$, la relaci\'{o} d'homotopia relativa a $A$ tamb\'{e} \'{e}s una relaci\'{o} d'equival\`{e}ncia.
+\end{observacio}
+\pause
+
+\begin{definicio}
+Un \textbf{cam\'{i}} \'{e}s una aplicaci\'{o} cont\'{i}nua $\gamma:[0,1]\rightarrow X$. Diem que $\gamma(0)$ \'{e}s l'inici del cam\'{i} i que $\gamma(1)$ \'{e}s el final. En cas que $\gamma(0)=\gamma(1)$, diem que el cam\'{i} \'{e}s un \textbf{lla\c{c}}.
+\end{definicio}
+\pause
+
+\begin{definicio}
+Dos camins $\alpha,\beta:[0,1]\rightarrow X$ es diu que s\'{o}n \textbf{equivalents} i ho denotem com $\alpha\sim\beta$ quan s\'{o}n hom\`{o}tops relativament a $\{0,1\}$. 
+\end{definicio}
+
+\end{frame}
+
+\begin{frame}{Homotopia}
+\begin{definicio}
+Siguin $\alpha,\beta:[0,1]\rightarrow X$ camins amb $\alpha(1)=\beta(0)$. Definim la \textbf{juxtaposici\'{o}} $\alpha*\beta$ com
+\[(\alpha*\beta)(t)=\left\{\begin{array}{ll}\alpha(2t)&0\leq t\leq1/2,\\\beta(2t-1)&1/2\leq t\leq1.\end{array}\right.\]
+\end{definicio}
+\pause
+
+Aquesta operaci\'{o} es comporta b\'{e} amb les classes d'equival\`{e}ncia de camins: si $\alpha,\beta:[0,1]\rightarrow X$ s\'{o}n camins, aleshores definim $[\alpha]*[\beta]=[\alpha*\beta]$. Aix\`{o} est\`{a} ben definit, \'{e}s a dir, no dep\`{e}n del representant.
+\pause
+
+\begin{definicio}
+Sigui $X$ un espai topol\`{o}gic i sigui $x_0\in X$. Definim el \textbf{grup fonamental} de $X$ en $x_0$ com $\pi_1(X,x_0)=\{[\gamma]\,|\,\gamma:[0,1]\rightarrow X\text{ lla\c{c} amb }\gamma(0)=\gamma(1)=x_0\}$ amb l'operaci\'{o} juxtaposici\'{o}.
+\end{definicio}
+
+\end{frame}
+
+\begin{frame}{Grup fonamental}
+\begin{teorema}
+El grup fonamental \'{e}s un grup.
+\end{teorema}
+\pause
+
+Fins ara hem vist el grup fonamental d'un espai topol\`{o}gic en un punt. Normalment s'acostuma a parlar de \textbf{el} grup fonamental d'un espai topol\`{o}gic quan, a priori, pot dependre del punt base que escollim. La seg\"{u}ent proposici\'{o} ens dir\`{a} quan es pot parlar de el grup fonamental.
+\pause
+
+\begin{proposicio}
+Sigui $X$ un espai topol\`{o}gic connex per camins. Aleshores per tots $x,y\in X$ $\pi_1(X,x)$ \'{e}s isomorf a $\pi_1(X,y)$.
+\end{proposicio}
+\end{frame}
+
+\begin{frame}{Grup fonamental}
+\begin{teorema}
+$\pi_1(\mathbb{S}^1,(1,0))\cong\mathbb{Z}$.
+\end{teorema}
+\pause
+\begin{proof}
+\only<2>{La demostraci\'{o} es basa en espais recobridors. Donem-ne la idea.
+
+Considerem $\mathbb{R}$ projectat sobre $\mathbb{S}^1$ mitjan\c{c}ant
+\begin{align*}
+p:\mathbb{R}&\longrightarrow \mathbb{S}^1.\\
+t&\longmapsto(\cos t,\sin t)
+\end{align*}
+
+La projecci\'{o} $p$ el que fa \'{e}s enrotllar la recta $\mathbb{R}$ fent infinites voltes a $\mathbb{S}^1$. Llavors per tot cam\'{i} $\alpha:[0,1]\rightarrow \mathbb{S}^1$ amb $\alpha(0)=\alpha(1)=(1,0)$ existeix un \'{u}nic $\tilde{\alpha}:[0,1]\rightarrow\mathbb{R}$ tal que $\tilde{\alpha}(0)=0$ i $p\circ\tilde{\alpha}=\alpha$. Com que $\alpha(1)=(1,0)$, aquest $\tilde{\alpha}$ ha de complir $\tilde{\alpha}(1)=n\in\mathbb{Z}$. Aquest $n$ \'{e}s \'{u}nic i no dep\`{e}n del representant $\alpha$ de la classe d'equival\`{e}ncia de camins. S'anomena grau del cam\'{i} $\alpha$ i \'{e}s el nombre de voltes que fa $\alpha$ al voltant de $\mathbb{S}^1$.}
+
+\only<3>{Aleshores tenim que l'aplicaci\'{o}
+\begin{align*}
+\pi_1(\mathbb{S}^1,(1,0))&\longrightarrow\mathbb{Z}\\
+[\alpha]&\longmapsto n
+\end{align*}
+que porta cada classe de camins al seu grau \'{e}s un isomorfisme de grups.}
+\alt<3>{\qedhere}{\phantom\qedhere}
+\end{proof}
+\pause
+
+\begin{teorema}
+Si $n\geq2$, $\pi_1(\mathbb{S}^n,p)=\{[c]\}$.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Grup fonamental}
+\begin{definicio}
+Donada una aplicaci\'{o} cont\'{i}nua $f:X\rightarrow Y$ tal que $f(x_0)=y_0$, definim el seu \textbf{\emph{push-forward}} sobre els grups fonamentals com
+\begin{align*}
+f_*:\pi_1(X,x_0)&\longrightarrow\pi_1(Y,y_0).\\
+[\gamma]&\longmapsto[f\circ\gamma]
+\end{align*}
+\end{definicio}
+\pause
+
+Aquesta aplicaci\'{o} $f_*$ est\`{a} ben definida i \'{e}s morfisme de grups. A m\'{e}s $(f\circ g)_*=f_*\circ g_*$ i $\id_*=\id:\pi_1(X,x_0)\rightarrow\pi_1(X,x_0)$. Aquestes propietats ens porten al seg\"{u}ent teorema.
+\pause
+
+\begin{teorema}
+Donats $X,Y$ espais topol\`{o}gics i sigui $f:X\rightarrow Y$ una equival\`{e}ncia homot\`{o}pica amb $f(x_0)=y_0$. Aleshores $f_*:\pi_1(X,x_0)\rightarrow\pi_1(Y,y_0)$ \'{e}s un isomorfisme.
+\end{teorema}
+\end{frame}
+
+\begin{frame}
+\begin{corollari}
+Dos espais topol\`{o}gics connexos per camins hom\`{o}topament equivalents tenen el mateix grup fonamental.
+
+En particular, dos espais topol\`{o}gics connexos per camins homeomorfs tenen el mateix grup fonamental.
+\end{corollari}
+\pause
+
+Hem trobat un nou invariant topol\`{o}gic: si tenim dos espais topol\`{o}gics amb grups fonamentals diferents no seran homeomorfs.
+\pause
+
+Amb l'invariant topol\`{o}gic de la connexitat es pot veure que $\mathbb{R}$ no \'{e}s homeomorf a $\mathbb{R}^n$ per $n>1$. Amb l'invariant topol\`{o}gic del grup fonamental podrem veure que $\mathbb{R}^2$ no \'{e}s homeomorf a $\mathbb{R}^n$ per $n>2$.
+\end{frame}
+
+\begin{frame}{Grup fonamental}
+\begin{teorema}
+$\mathbb{R}^2$ no \'{e}s homeomorf a $\mathbb{R}^n$ amb $n>2$.
+\end{teorema}
+\pause
+\begin{proof}
+Suposem que tenim un homeomorfisme $f:\mathbb{R}^2\rightarrow\mathbb{R}^n$. Llavors $f:\mathbb{R}^2\backslash\{0\}\rightarrow\mathbb{R}^n\backslash\{f(0)\}$ ser\`{a} un homeomorfisme tamb\'{e}.
+\pause
+
+\'{E}s f\`{a}cil veure que $\mathbb{R}^2\backslash\{0\}\simeq\mathbb{S}^1$ i que $\mathbb{R}^n\backslash\{f(0)\}\simeq\mathbb{S}^{n-1}$. Per\`{o} hem calculat abans que $\pi_1(\mathbb{S}^1)\cong\mathbb{Z}$ i que $\pi_1(\mathbb{S}^{n-1})=0$. Per tant no poden ser homeomorfs, el qual porta a contradicci\'{o}.
+\end{proof}
+\pause
+
+\begin{teoremaBrouwer}
+Sigui $\mathbb{D}^2=\{x\in\mathbb{R}^2\,|\,||x||\leq1\}$ el disc unitari. Aleshores tota aplicaci\'{o} cont\'{i}nua $f:\mathbb{D}^2\rightarrow\mathbb{D}^2$ t\'{e} un punt fix, \'{e}s a dir, existeix un $x\in\mathbb{D}^2$ tal que $f(x)=x$.
+\end{teoremaBrouwer}
+\end{frame}
+\end{document}

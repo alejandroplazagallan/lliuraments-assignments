@@ -1,0 +1,235 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[left=2cm,top=2.5cm,right=1.5cm,bottom=2.5cm]{geometry}
+\usepackage{amscd}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{corollari}{Corol\textperiodcentered lari}
+\newtheorem{lema}{Lema}
+\newtheorem{definicio}{Definici\'{o}}
+\newtheorem{notacio}{Notaci\'{o}}
+\newtheorem{proposicio}{Proposici\'{o}}
+\newtheorem{observacio}{Observaci\'{o}}
+\theoremstyle{definition}
+\newtheorem{exemple}{Exemple}
+
+\DeclareMathOperator{\Obj}{Obj}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+
+\title{Topologia no commutativa}
+\author{Alejandro Plaza Gall\'{a}n}
+\date{8 de juny de 2021}
+
+\begin{document}
+
+\maketitle
+
+S\'{o}c l'Alejandro i far\'{e} una presentaci\'{o} sobre topologia no commutativa.
+
+Comencem recordant la definici\'{o} de $K$-\`{a}lgebra.
+\begin{definicio}
+Una $\boldsymbol{K}$\textbf{-\`{a}lgebra} \'{e}s un anell $A$ que \'{e}s a m\'{e}s espai vectorial sobre el cos $K$. Les estructures d'anell i espai vectorial s\'{o}n compatibles en el sentit seg\"{u}ent: per tots $\lambda\in K$, $a,b\in A$:
+\begin{enumerate}
+\item $\lambda(ab)=(\lambda a)b=a(\lambda b)=(ab)\lambda$,
+\item $\lambda a=a\lambda$.
+\end{enumerate}
+\end{definicio}
+
+En aquesta presentaci\'{o} tractarem de les $\mathbb{C}$-\`{a}lgebres.
+
+\begin{exemple}
+\begin{enumerate}
+\item Les matrius $M_n(\mathbb{C})$ amb coeficients complexos \'{e}s una $\mathbb{C}$-\`{a}lgebra.
+\item Donat un espai topol\`{o}gic compacte Hausdorff, podem definir $C(X)=C(X,\mathbb{C})=\{f:X\rightarrow\mathbb{C}\,|\,f\text{ es cont\'{i}nua}\}$, que es pot dotar d'una estructura de $\mathbb{C}$-\`{a}lgebra natural: donades $f,g\in C(X)$, $\lambda\in\mathbb{C}$ i $x\in X$, definim
+\[(f+g)(x)=f(x)+g(x),\]
+\[(fg)(x)=f(x)g(x),\]
+\[(\lambda f)(x)=\lambda f(x).\]
+
+$C(X)$ \'{e}s de fet una $\mathbb{C}$-\`{a}lgebra commutativa.
+\end{enumerate}
+\end{exemple}
+
+Les matrius s\'{o}n un exemple de $\mathbb{C}$-\`{a}lgebra no commutativa. En aquesta presentaci\'{o} ens centrarem m\'{e}s, per\`{o}, en la $\mathbb{C}$-\`{a}lgebra de les funciones cont\'{i}nues $C(X)$.
+
+Ens fixem que tenim m\'{e}s estructura que nom\'{e}s la de $\mathbb{C}$-\`{a}lgebra. Podem definir una aplicaci\'{o}.
+
+\begin{definicio}
+Una \textbf{involuci\'{o}} sobre una $\mathbb{C}$-\`{a}lgebra \'{e}s una aplicaci\'{o} $*:A\rightarrow A$ tal que:
+\begin{enumerate}
+\item $(a+b)^*=a^*+b^*$,
+\item $(ab)^*=b^*a^*$,
+\item $(\lambda a)^*=\overline\lambda a^*$.
+\end{enumerate}
+\end{definicio}
+
+\begin{exemple}
+Sobre $C(X)$ podem agafar la involuci\'{o} consistent en prendre el conjugat: donada $f\in C(X)$, $f^*(x)=\overline{f(x)}$. En aquest cas a m\'{e}s $(fg)^*=f^*g^*$ perqu\`{e} aquesta \`{a}lgebra \'{e}s commutativa.
+\end{exemple}
+
+Tamb\'{e} tenim una norma sobre aquesta $\mathbb{C}$-\`{a}lgebra.
+
+\begin{exemple}
+Sobre $C(X)$ definim la norma de manera que per $f\in C(X)$,
+\[||f||=\sup_{x\in X}|f(x)|.\]
+
+Aquesta norma existeix i \'{e}s finita gr\`{a}cies a que hem suposat que $X$ compacte.
+\end{exemple}
+
+Amb les operacions que tenim, podem definir el que ser\`{a} l'estructura amb la que treballarem.
+
+\begin{definicio}
+Una $\boldsymbol{C^*}$\textbf{-\`{a}lgebra} \'{e}s una $\mathbb{C}$-\`{a}lgebra $A$ amb una norma $||\cdot||:A\rightarrow[0,\infty)$ tal que $(A,||\cdot||)$ \'{e}s un espai m\`{e}tric complet, compleix $||ab||\leq||a||||b||$, t\'{e} una involuci\'{o} $*:A\rightarrow A$ i per tot $a\in A$ es compleix $||aa^*||=||a||^2$.
+\end{definicio}
+
+$C(X)$ \'{e}s una $C^*$-\`{a}lgebra.
+
+\begin{definicio}
+Un \textbf{morfisme de }$\boldsymbol{C^*}$\textbf{-\`{a}lgebres} $f:A\rightarrow B$ \'{e}s un morfisme d'anells tal que $f(a^*)=f(a)^*$.
+\end{definicio}
+
+Observem que no exigim que $f$ sigui un <<morfisme d'espais topol\`{o}gics>>, \'{e}s a dir, una funci\'{o} cont\'{i}nua. Aix\`{o} \'{e}s perqu\`{e} no cal exigir-ho a la definici\'{o}. De fet, veurem un teorema que ens dir\`{a} que tot morfisme de $C^*$-\`{a}lgebres, tal com ho hem definit, ser\`{a} continu.
+
+\begin{teorema}
+Si $f:A\rightarrow B$ \'{e}s un morfisme de $C^*$-\`{a}lgebres, aleshores per tot $a\in A$, $||f(a)||\leq||a||$. En particular, $f$ \'{e}s cont\'{i}nua.
+\end{teorema}
+
+A cada espai topol\`{o}gic compacte Hausdorff $X$ hem associat una $C^*$-\`{a}lgebra unit\`{a}ria commutativa $C(X)$. Per\`{o} a cada $C^*$-\`{a}lgebra unit\`{a}ria commutativa li podem associar tamb\'{e} un espai topol\`{o}gic.
+
+\begin{definicio}
+Sigui $A$ una $C^*$-\`{a}lgebra unit\`{a}ria commutativa. Definim l'\textbf{espai topol\`{o}gic associat} a $A$ com
+\[M_A=\{f:A\rightarrow\mathbb{C}\,|\,f\text{ \'{e}s un morfisme d'anells }\mathbb{C}\text{-lineal},f\neq0\}.\]
+
+Definim tamb\'{e} l'\textbf{espai dual topol\`{o}gic} de $A$ com
+\[A^*=\{f:A\rightarrow\mathbb{C}\,|\,f\text{ \'{e}s }\mathbb{C}\text{-lineal i cont\'{i}nua}\}.\]
+\end{definicio}
+
+\begin{lema}
+Sigui $A$ una $C^*$-\`{a}lgebra unit\`{a}ria commutativa. Sigui $\varphi\in M_A$. Llavors:
+\begin{enumerate}
+\item $\displaystyle{||\varphi||=\sup_{||a||\leq1}|\varphi(a)|=1}$.
+\item $\varphi(a^*)=\overline{\varphi(a)}$.
+\end{enumerate}
+\end{lema}
+
+El punt 2 implica que els elements de $M_A$ s\'{o}n *-morfismes ---ja que la involuci\'{o} en $\mathbb{C}$ \'{e}s la conjugaci\'{o}---. Per tant s\'{o}n continus i $M_A\subseteq A^*$.
+
+\begin{definicio}
+Dotem $M_A$ de la topologia indu\"{i}da per ser subespai de $A^*$. Aquesta es l'anomenada \textbf{topologia d\`{e}bil*}. \'{E}s la topologia en la que una successi\'{o} $\varphi_n\in M_A$ convergeix a una $\varphi\in M_A$ si i nom\'{e}s si convergeix puntualment.
+\end{definicio}
+
+\begin{lema}
+$M_A\subseteq A^*$ \'{e}s un espai compacte.
+\end{lema}
+
+\begin{definicio}
+Sigui $A$ una $C^*$-\`{a}lgebra unit\`{a}ria commutativa. Definim la \textbf{transformada de Gelfand} com l'aplicaci\'{o}
+\[\begin{split}A&\longrightarrow C(M_A),\\a&\longmapsto\hat{a}\end{split}\hspace{7mm}\text{on}\hspace{7mm}\begin{split}\hat{a}:M_A&\longrightarrow\mathbb{C}.\\\varphi&\longmapsto\varphi(a)\end{split}\]
+\end{definicio}
+
+La transformada de Gelfand porta cada element $a\in A$ al morfisme avaluaci\'{o} en $a$.
+
+\begin{teorema}
+(Gelfand) Sigui $A$ una $C^*$-\`{a}lgebra unit\`{a}ria commutativa. Llavors la transformada de Gelfand $A\rightarrow C(M_A)$ \'{e}s un *-morfisme isom\`{e}tric.
+\end{teorema}
+
+El teorema de Gelfand ens ha perm\`{e}s trobar per qualsevol $C^*$-\`{a}lgebra unit\`{a}ria commutativa $A$ un espai topol\`{o}gic $X=M_A$ compacte Hausdorff tal que $C(M_A)\cong A$. La aplicaci\'{o} que identifica $C(M_A)$ amb $A$ \'{e}s la transformada de Gelfand.
+
+Podem veure en llenguatge de categories la relaci\'{o} que hem creat entre espais topol\`{o}gics Hausdorff i $C^*$-\`{a}lgebres unit\`{a}ries commutatives.
+
+\begin{definicio}
+Una \textbf{categoria} $\mathcal{C}$ \'{e}s una estructura algebraica que consta de
+\begin{enumerate}
+\item una clase $\Obj(\mathcal{C})$ d'\textbf{objectes};
+\item per cada $C,D\in\mathcal{C}$, un conjunt $\Hom_{\mathcal{C}}(C,D)$ de \textbf{morfismes} de $C$ a $D$;
+\item per cada $C,D,E$, una aplicaci\'{o}
+\begin{align*}
+\Hom_{\mathcal{C}}(C,D)\times\Hom_{\mathcal{C}}(D,E)&\longrightarrow\Hom_{\mathcal{C}}(C,E).\\
+(f,g)&\longmapsto fg
+\end{align*}
+\end{enumerate}
+A m\'{e}s exigim les seg\"{u}ents propietats:
+\begin{enumerate}
+\item Per tot $C\in\Obj(\mathcal{C})$ existeix un $\id_C\in\Hom_{\mathcal{C}}(A,A)$.
+\item Per tots $C,D\in\Obj(\mathcal{C})$ i $f\in\Hom_{\mathcal{C}}(C,D)$, $\id_Df=f\id_E=f$.
+\item Per tots $C,D,E,F\in\Obj(\mathcal{C})$ i $f\in\Hom_{\mathcal{C}}(C,D),g\in\Hom_{\mathcal{C}}(D,E),h\in\Hom_{\mathcal{C}}(E,F)$, es compleix $(fg)h=f(gh)$.
+\end{enumerate}
+\end{definicio}
+
+Els objectes d'una categoria acostumen a ser conjunts amb una certa estructura i els morfismes, aplicacions compatibles amb aquesta estructura, tot i que no ho han de ser necess\`{a}riament. Els morfismes no tenen per qu\`{e} ser aplicacions.
+
+\begin{exemple}
+\begin{enumerate}
+\item Hi ha la categoria dels espais topol\`{o}gics compactes Hausdorff $CH$. Els seus morfismes s\'{o}n les aplicacions cont\'{i}nues entre ells.
+\item Tamb\'{e} hi ha la categoria de les $C^*$-\`{a}lgebres commutatives unit\`{a}ries $C_{\text{ab},1}$, amb els seus morfismes.
+\end{enumerate}
+\end{exemple}
+
+\begin{definicio}
+Un \textbf{functor} $F:\mathcal{C}\rightarrow\mathcal{D}$ entre dues categories $\mathcal{C},\mathcal{D}$ \'{e}s una correspond\`{e}ncia tal que per cada $C\in\Obj(\mathcal{C})$, tenim $F(C)\in\Obj\mathcal{D}$ i per tots $C,C'\in\Obj(\mathcal{C})$ i tot $f\in\Hom_{\mathcal{C}}(C,C')$, tenim $F(f)\in\Hom_{\mathcal{D}}(F(C),F(C'))$. Exigim les seg\"{u}ents propietats:
+\begin{enumerate}
+\item Per tot $C\in\Obj(\mathcal{C})$, $F(\id_C)=\id_{F(C)}$
+\item Per tots $C,C',C''\in\Obj(\mathcal{C})$ i tots $f\in\Hom_{\mathcal{C}}(C,C'),g\in\Hom_{\mathcal{C}}(C',C'')$, hi ha dues opcions:
+\begin{enumerate}
+\item O b\'{e} $F(fg)=F(f)F(g)$. En aquest cas $F$ es diu \textbf{covariant}.
+\item O b\'{e} $F(fg)=F(g)F(f)$. En aquest cas $F$ es diu \textbf{contravariant}.
+\end{enumerate}
+\end{enumerate}
+\end{definicio}
+
+\begin{exemple}
+\begin{enumerate}
+\item Tenim el functor
+\begin{align*}
+F:CH&\longrightarrow C_{\text{ab},1}^*\\
+X&\longmapsto C(X)
+\end{align*}
+que sobre els morfismes actua de manera que donats $X,Y\in CH$ i $f:X\rightarrow Y$ cont\'{i}nua,
+\begin{align*}
+F(f):C(Y)&\longrightarrow C(X).\\
+\alpha&\longmapsto\alpha\circ f
+\end{align*}
+Observem que aquest functor \'{e}s contravariant, ja que inverteix l'ordre.
+\item Tamb\'{e} tenim el functor
+\begin{align*}
+G:C_{\text{ab},1}^*&\longrightarrow CH\\
+A&\longmapsto M_A
+\end{align*}
+que sobre els morfismes actua de manera que donades $A,B\in C_{\text{ab},1}^*$ i $f:A\rightarrow B$ morfisme de $C^*$-\`{a}lgebres,
+\begin{align*}
+G(f):M_B&\longrightarrow M_A.\\
+\varphi&\longmapsto\varphi\circ f
+\end{align*}
+Aquest functor tamb\'{e} \'{e}s contravariant.
+\end{enumerate}
+\end{exemple}
+
+Hem vist que donat $A\in C_{\text{ab},1}^*$, $F(G(A))=C(M_A)\cong A\cong A$. Per tant, d'alguna manera $F\circ G$ \'{e}s com el functor identitat. Tamb\'{e} tenim que donat $X\in CH$, llavors $G(F(X))=M_{C(X)}\cong X$, de manera que $G\circ F$ \'{e}s com el functor identitat. Vegem llavors en quina manera $F$ i $G$ s\'{o}n m\'{u}tuament inversos.
+
+\begin{definicio}
+Donades $\mathcal{C},\mathcal{D}$ categories i $F,G:\mathcal{C}\rightarrow\mathcal{D}$ functors, una \textbf{tranformaci\'{o} natural} de $F$ a $G$, que es denota com $\eta:F\Rightarrow G$, \'{e}s una col\textperiodcentered lecci\'{o} de morfismes $\eta_C:F(C)\rightarrow G(C)$ indexat sobre $C\in\Obj(\mathcal{C})$ que compleix que per tots $C,C'\in\Obj(\mathcal{C})$ i tot $f\in\Hom_{\mathcal{C}}(C,C')$, el seg\"{u}ent diagrama \'{e}s commutatiu:
+
+\[\begin{CD}F(C)@>\eta_C>>G(C)\\@VF(f)VV@VVG(f)V\\F(C')@>>\eta_{C'}>G(C).\end{CD}\]
+\end{definicio}
+
+\begin{definicio}
+Una transformaci\'{o} natural $\eta:F\Rightarrow G$ entre functors s'anomena \textbf{equival\`{e}ncia natural} si per tot $C\in\Obj(\mathcal{C})$, $\eta_C:F(C)\rightarrow G(C)$ \'{e}s un isomorfisme. Ho denotem per $F\simeq G$.
+\end{definicio}
+
+\begin{definicio}
+Diem que dues categories s\'{o}n \textbf{naturalment equivalents} si existeixen functors $F:\mathcal{C}\rightarrow\mathcal{D}$ i $G:\mathcal{D}\rightarrow\mathcal{C}$ covariants tals que $G\circ F\simeq\id_{\mathcal{C}}$ i $F\circ G\simeq\id_{\mathcal{D}}$. Ho denotem com $\mathcal{C}\simeq\mathcal{D}$.
+
+Si $F$ i $G$ s\'{o}n contravariants, diem que les $\mathcal{C}$ i $\mathcal{D}$ s\'{o}n \textbf{duals}.
+\end{definicio}
+
+\begin{teorema}
+$CH\simeq C_{ab,1}^*$.
+\end{teorema}
+
+Amb aquest teorema concloem que podem identificar de forma natural els espais topol\`{o}gics compactes Hausdorff amb les $C^*$-\`{a}lgebres commutatives unit\`{a}ries.
+\end{document}
